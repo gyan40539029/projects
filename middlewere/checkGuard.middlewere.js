@@ -33,11 +33,11 @@ const collegeCheckSecquirtForBody = (req,res,next)=>{    //// for create
 //course secation middlewere
 
 const courseCheckSecquirty = (req,res,next)=>{     /// for get and update
-    const param = req.params.collegeId
+    const param = req.params.courseId
     if(param <= 0){
         return res.status(505).json({
             status : "error from middlewere",
-            remdy : "please enter the collegeId"
+            remdy : "please enter the courseId"
         })
     }
     else {
@@ -49,10 +49,10 @@ const courseCheckSecquirty = (req,res,next)=>{     /// for get and update
 }
 const courseCheckSecquirtForBody = (req,res,next)=>{    //// for create
     const body = req.body
-    if(!body || !body.collegeId) {
+    if(!body || !body.courseId) {
         return res.status(501).json({
             status : "error",
-            remdy : "empty fields input or collegeId"
+            remdy : "empty fields input or courseId"
         })
     }
     else{
@@ -70,11 +70,11 @@ const courseCheckSecquirtForBody = (req,res,next)=>{    //// for create
 
 
 const classCheckSecquirty = (req,res,next)=>{     /// for get and update
-    const param = req.params.collegeId
+    const param = req.params.classId
     if(param <= 0){
         return res.status(505).json({
             status : "error from middlewere",
-            remdy : "please enter the collegeId"
+            remdy : "please enter the classId"
         })
     }
     else {
@@ -86,10 +86,10 @@ const classCheckSecquirty = (req,res,next)=>{     /// for get and update
 }
 const classCheckSecquirtForBody = (req,res,next)=>{    //// for create
     const body = req.body
-    if(!body || !body.collegeId) {
+    if(!body || !body.classId) {
         return res.status(501).json({
             status : "error",
-            remdy : "empty fields input or collegeId"
+            remdy : "empty fields input or classId"
         })
     }
     else{
@@ -107,11 +107,11 @@ const classCheckSecquirtForBody = (req,res,next)=>{    //// for create
 
 
 const bookCheckSecquirty = (req,res,next)=>{     /// for get and update
-    const param = req.params.collegeId
+    const param = req.params.bookId
     if(param <= 0){
         return res.status(505).json({
             status : "error from middlewere",
-            remdy : "please enter the collegeId"
+            remdy : "please enter the bookId"
         })
     }
     else {
@@ -123,10 +123,10 @@ const bookCheckSecquirty = (req,res,next)=>{     /// for get and update
 }
 const bookCheckSecquirtForBody = (req,res,next)=>{    //// for create
     const body = req.body
-    if(!body || !body.collegeId) {
+    if(!body || !body.bookId) {
         return res.status(501).json({
             status : "error",
-            remdy : "empty fields input or collegeId"
+            remdy : "empty fields input or bookId"
         })
     }
     else{
@@ -142,11 +142,11 @@ const bookCheckSecquirtForBody = (req,res,next)=>{    //// for create
 //student secation middlewere
 
 const studentCheckSecquirty = (req,res,next)=>{     /// for get and update
-    const param = req.params.collegeId
+    const param = req.params.studentId
     if(param <= 0){
         return res.status(505).json({
             status : "error from middlewere",
-            remdy : "please enter the collegeId"
+            remdy : "please enter the studentId"
         })
     }
     else {
@@ -158,10 +158,10 @@ const studentCheckSecquirty = (req,res,next)=>{     /// for get and update
 }
 const studentCheckSecquirtForBody = (req,res,next)=>{    //// for create
     const body = req.body
-    if(!body || !body.collegeId) {
+    if(!body || !body.studentId) {
         return res.status(501).json({
             status : "error",
-            remdy : "empty fields input or collegeId"
+            remdy : "empty fields input or studentId"
         })
     }
     else{
@@ -182,11 +182,11 @@ const studentCheckSecquirtForBody = (req,res,next)=>{    //// for create
 
 
 const trainerCheckSecquirty = (req,res,next)=>{     /// for get and update
-    const param = req.params.collegeId
+    const param = req.params.trainerId
     if(param <= 0){
         return res.status(505).json({
             status : "error from middlewere",
-            remdy : "please enter the collegeId"
+            remdy : "please enter the trainerId"
         })
     }
     else {
@@ -198,10 +198,10 @@ const trainerCheckSecquirty = (req,res,next)=>{     /// for get and update
 }
 const trainerCheckSecquirtForBody = (req,res,next)=>{    //// for create
     const body = req.body
-    if(!body || !body.collegeId) {
+    if(!body || !body.trainerId) {
         return res.status(501).json({
             status : "error",
-            remdy : "empty fields input or collegeId"
+            remdy : "empty fields input or trainerId"
         })
     }
     else{
@@ -221,11 +221,11 @@ const trainerCheckSecquirtForBody = (req,res,next)=>{    //// for create
 //user secation middlewere
 
 const userCheckSecquirty = (req,res,next)=>{     /// for get and update
-    const param = req.params.collegeId
+    const param = req.params.userId
     if(param <= 0){
         return res.status(505).json({
             status : "error from middlewere",
-            remdy : "please enter the collegeId"
+            remdy : "please enter the userId"
         })
     }
     else {
@@ -237,10 +237,10 @@ const userCheckSecquirty = (req,res,next)=>{     /// for get and update
 }
 const userCheckSecquirtForBody = (req,res,next)=>{    //// for create
     const body = req.body
-    if(!body || !body.collegeId) {
+    if(!body || !body.userId) {
         return res.status(501).json({
             status : "error",
-            remdy : "empty fields input or collegeId"
+            remdy : "empty fields input or userId"
         })
     }
     else{
@@ -260,11 +260,11 @@ const userCheckSecquirtForBody = (req,res,next)=>{    //// for create
 
 
 const accountCheckSecquirty = (req,res,next)=>{     /// for get and update
-    const param = req.params.collegeId
+    const param = req.params.accountId
     if(param <= 0){
         return res.status(505).json({
             status : "error from middlewere",
-            remdy : "please enter the collegeId"
+            remdy : "please enter the accountId"
         })
     }
     else {
@@ -276,10 +276,10 @@ const accountCheckSecquirty = (req,res,next)=>{     /// for get and update
 }
 const accountCheckSecquirtForBody = (req,res,next)=>{    //// for create
     const body = req.body
-    if(!body || !body.collegeId) {
+    if(!body || !body.accountId) {
         return res.status(501).json({
             status : "error",
-            remdy : "empty fields input or collegeId"
+            remdy : "empty fields input or accountId"
         })
     }
     else{
