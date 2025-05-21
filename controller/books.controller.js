@@ -1,12 +1,12 @@
 
 const bookHelper = require('../helpers/books.helpers')
-const createBook = (req, res) => {
+const createBook = async(req, res) => {
     try {
         const book = req.body
         
         if (book?.bookId) {
 
-            const book_rcd = bookHelper.createBook(book)
+            const book_rcd = await bookHelper.createBook(book)
 
             if (book_rcd === "book not created") {
                 return res.status(401).json({
@@ -52,11 +52,11 @@ const createBook = (req, res) => {
 
 }
 
-const getBookById = (req, res) => {
+const getBookById = async(req, res) => {
     try {
         const bookId = req.params.bookId //// need to  change query to param
          console.log(bookId)
-        const bookRecord = bookHelper.getBookById(bookId)
+        const bookRecord = await bookHelper.getBookById(bookId)
        
        
         if (bookId > 0) {

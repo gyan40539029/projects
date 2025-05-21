@@ -1,12 +1,12 @@
 
 const classHelper = require('../helpers/classes.helpers')
-const createClass = (req, res) => {
+const createClass = async (req, res) => {
     try {
         const claas = req.body
         
         if (claas?.classId) {
 
-            const class_rcd = classHelper.createClass(claas)
+            const class_rcd = await classHelper.createClass(claas)
 
             if (class_rcd === "class not created") {
                 return res.status(401).json({
@@ -52,10 +52,10 @@ const createClass = (req, res) => {
 
 }
 
-const getClassById = (req, res) => {
+const getClassById = async(req, res) => {
     try {
         const classId = req.params.classId //// need to  change query to param
-        const classRecord = classHelper.getClassbyId(classId)
+        const classRecord = await classHelper.getClassbyId(classId)
        
         if (classId > 0) {
           

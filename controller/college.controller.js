@@ -1,12 +1,13 @@
 
 const collegeHelper = require('../helpers/colleges.helpers')
-const createCollege = (req, res) => {
+const createCollege = async(req, res) => {
     try {
         const college = req.body
         
         if (college?.collegeId) {
 
-            const college_rcd = collegeHelper.createCollege(college)
+            const college_rcd = await collegeHelper.createCollege(college)
+            console.log(college_rcd)
 
             if (college_rcd === "college not created") {
                 return res.status(401).json({
@@ -21,7 +22,7 @@ const createCollege = (req, res) => {
 
                 return res.status(201).json({
                     status: "new college added successfully",
-                    result: college_rcd
+                    result: college
 
                 })
 
@@ -52,10 +53,10 @@ const createCollege = (req, res) => {
 
 }
 
-const getCollegebyId = (req, res) => {
+const getCollegebyId = async(req, res) => {
     try {
         const collegeId = req.params.collegeId //// need to  change query to param
-        const collegeRecord = collegeHelper.getCollegebyId(collegeId)
+        const collegeRecord = await collegeHelper.getCollegebyId(collegeId)
        
         if (collegeId > 0) {
           

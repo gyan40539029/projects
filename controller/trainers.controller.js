@@ -1,12 +1,12 @@
 
 const trainerHelper = require('../helpers/trainers.helpers')
-const createTrainer = (req, res) => {
+const createTrainer = async (req, res) => {
     try {
         const trainer = req.body
         
         if (trainer?.trainerId) {
 
-            const trainer_rcd = trainerHelper.createTrainer(trainer)
+            const trainer_rcd = await trainerHelper.createTrainer(trainer)
 
             if (trainer_rcd === "trainer not created") {
                 return res.status(401).json({
@@ -52,10 +52,10 @@ const createTrainer = (req, res) => {
 
 }
 
-const getTrainerById = (req, res) => {
+const getTrainerById = async (req, res) => {
     try {
         const trainerId = req.params.trainerId //// need to  change query to param
-        const trainerRecord = trainerHelper.getTrainerById(trainerId)
+        const trainerRecord = await trainerHelper.getTrainerById(trainerId)
        
         if (trainerId > 0) {
           

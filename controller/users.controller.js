@@ -1,12 +1,12 @@
 
 const userHelper = require('../helpers/users.helpers')
-const createUser = (req, res) => {
+const createUser = async (req, res) => {
     try {
         const user = req.body
         
         if (user?.userId) {
 
-            const user_rcd = userHelper.createUser(user)
+            const user_rcd = await userHelper.createUser(user)
 
             if (user_rcd === "user not created") {
                 return res.status(401).json({
@@ -52,10 +52,10 @@ const createUser = (req, res) => {
 
 }
 
-const getUserById = (req, res) => {
+const getUserById = async (req, res) => {
     try {
         const userId = req.params.userId //// need to  change query to param
-        const userRecord = userHelper.getUserById(userId)
+        const userRecord = await userHelper.getUserById(userId)
        
         if (userId > 0) {
           

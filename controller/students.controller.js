@@ -1,12 +1,12 @@
 
 const studentHelper = require('../helpers/students.helpers')
-const createStudent = (req, res) => {
+const createStudent =async (req, res) => {
     try {
         const student = req.body
         
         if (student?.studentId) {
 
-            const student_rcd = studentHelper.createStudent(student)
+            const student_rcd = await studentHelper.createStudent(student)
 
             if (student_rcd === "student not created") {
                 return res.status(401).json({
@@ -52,10 +52,10 @@ const createStudent = (req, res) => {
 
 }
 
-const getStudentById = (req, res) => {
+const getStudentById = async (req, res) => {
     try {
         const studentId = req.params.studentId 
-        const studentRecord = studentHelper.getStudentById(studentId)
+        const studentRecord = await studentHelper.getStudentById(studentId)
        
         if (studentId > 0) {
           

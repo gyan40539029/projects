@@ -1,12 +1,12 @@
 
 const accountHelper = require('../helpers/accounts.helpers')
-const createAccount = (req, res) => {
+const createAccount = async (req, res) => {
     try {
         const account = req.body
         
         if (account?.accountId) {
 
-            const account_rcd = accountHelper.createAccount(account)
+            const account_rcd = await accountHelper.createAccount(account)
 
             if (account_rcd === "account not created") {
                 return res.status(401).json({
@@ -52,10 +52,10 @@ const createAccount = (req, res) => {
 
 }
 
-const getAccountById = (req, res) => {
+const getAccountById = async (req, res) => {
     try {
         const accountId = req.params.accountId 
-        const accountRecord = accountHelper.getAccountById(accountId)
+        const accountRecord = await accountHelper.getAccountById(accountId)
        
         if (accountId > 0) {
           

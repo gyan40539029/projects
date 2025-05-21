@@ -1,12 +1,12 @@
 
 const courseHelper = require('../helpers/courses.helpers')
-const createCourse = (req, res) => {
+const createCourse = async (req, res) => {
     try {
         const course = req.body
         
         if (course?.courseId) {
 
-            const course_rcd = courseHelper.createCourse(course)
+            const course_rcd = await courseHelper.createCourse(course)
 
             if (course_rcd === "course not created") {
                 return res.status(401).json({
@@ -52,10 +52,10 @@ const createCourse = (req, res) => {
 
 }
 
-const getCourseById = (req, res) => {
+const getCourseById = async (req, res) => {
     try {
         const courseId = req.params.courseId //// need to  change query to param
-        const courseRecord = courseHelper.getCourseById(courseId)
+        const courseRecord = await courseHelper.getCourseById(courseId)
        
         if (courseId > 0) {
           
