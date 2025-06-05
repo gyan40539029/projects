@@ -1,61 +1,23 @@
-let classList = []
 
-const { classModel } = require('./../model/classes.model')
+
+const { ClassModel } = require('./../model/classes.model')
 
 const createClass = async (claas) => {
 
     try {
-        if (claas.classId && !classList.some(cls => cls.classId == claas.classId)) {
+       const createClass = await ClassModel.insertOne(claas)
 
-            await classModel.insertOne({
-                classId: 410,
-                className: "science",
-                section: "b2",
-                startDate: 15,
-                endDate: 30,
-                classTeacher: "margred",
-                status:"active"
-            })
-            console.log('hellow')
-            classList.push(claas)
-
-
-            return claas
-
-        }
-
-
-        else {
-            return "class not created"
-        }
+       return createClass
     } catch (error) {
         throw new Error(error.message)
     }
 }
 
 
-const getClassbyId = async(classId) => {
+const getClassbyId = async(_id) => {
     try {
-        if (classId) {
-            const idClass = parseInt(classId)
-
-            await classModel.findOne({_id : "444485224"})
-
-            let classRecord = classList.find((cls) => cls.classId === idClass)
-
-
-
-            if (classRecord) {
-
-                return classRecord
-
-            }
-
-            else {
-                return "class data not fetch"
-            }
-
-        }
+        const getClass = await ClassModel.findOne({_id})
+        return getClass
 
     } catch (error) {
         throw new Error(error.message)
@@ -64,7 +26,11 @@ const getClassbyId = async(classId) => {
 }
 
 
-const getClasses = (claas) => {
+const getClasses = async() => {
+
+    const classesGet = await ClassModel.find()
+
+    return classesGet
 
 
 
@@ -74,37 +40,68 @@ const getClasses = (claas) => {
 
 
 
-const updateClassById = (claas, classId) => {
+const updateClassById = async(claas, _id) => {
     try {
-        if (claas?.classId && classId) {
-            console.log('hellooooooo')
 
-            classList = classList.map((cls) => {
-                if (cls.classId == classId) {
-                    return {
-                        ...claas,
-                        classId: cls.classId
-                    }
+        const updateClass = await ClassModel.updateOne(
+            {_id},
+            {$set:claas},
+            {upsert:false}
+        )
 
-                }
-                return cls
+        return updateClass
 
 
-            })
+        
+    } catch (error) {
+        throw new Error(error.message)
+    }
 
-            return "class data successfully updated"
+}
+
+const updateClasses = async(claas) => {
+    try {
+           const updateClass = await ClassModel.updateMany(
+            // {_id},
+            {$set:claas},
+            {upsert:false}
+        )
+
+        return updateClass
+
+      
 
 
+        
+    } catch (error) {
+        throw new Error(error.message)
+    }
 
-        }
-        else {
-            return "class data not updated"
-        }
+}
+
+
+const deleteClassbyId = async(_id) => {
+    try {
+        const deleteClass = await ClassModel.deleteOne({_id})
+        return deleteClass
 
     } catch (error) {
         throw new Error(error.message)
     }
 
+}
+
+const deleteClasses = async()=>{
+    try{
+
+    classesDelete = await ClassModel.deleteMany()
+    return classesDelete
+
+
+
+    }catch(err){
+        throw new Error(err.message)
+    }
 }
 
 
@@ -112,7 +109,10 @@ module.exports = {
     createClass,
     getClassbyId,
     getClasses,
-    updateClassById
+    updateClassById,
+    updateClasses,
+    deleteClassbyId,
+    deleteClasses
 }
 
 

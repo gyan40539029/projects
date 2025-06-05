@@ -1,77 +1,22 @@
-let trainerList = []
 
-const { trainerModel } = require('./../model/trainers.model')
+const { TrainerModel } = require('./../model/trainers.model')
 
-const createTrainer = async (trainer) => {  //need to name chang createCollege
+const createTrainer = async (trainer) => {  
 
     try {
-        if (trainer.trainerId && !trainerList.some(trn => trn.trainerId == trainer.trainerId)) {
+        const trainerCreatee = await TrainerModel.insertOne(trainer)
 
-            await trainerModel.insertOne({
-
-                trainerId: 411,
-                fullName: "mohan",
-                emailAddress:"rockwell9029@gmail.com",
-                phoneNumber: 983251643,
-                gender: "male",
-                Dob: 1998,
-                profilePhoto: "img_url",
-                qualification: "ece",
-                expertise: "programming & desigening",
-                experiance: 10,
-                address: {
-                    type: Object,
-                    street: "uag8",
-                    city: "vku",
-                    State: "delhi",
-                    zipCode: 221711,
-                    trainerType: "efufea",
-                    Status: "active"
-                }
-
-
-            })
-
-            console.log('hellow')
-            trainerList.push(trainer)
-
-
-            return trainer
-
-        }
-
-
-        else {
-            return "trainer not created"
-        }
+        return trainerCreatee
     } catch (error) {
         throw new Error(error.message)
     }
 }
 
 
-const getTrainerById = async(trainerId) => {
+const getTrainerById = async(_id) => {
     try {
-        if (trainerId) {
-            const idTrainer = parseInt(trainerId)
-
-            await trainerModel.findOne({_id:"55555555555555"})
-
-            let trainer = trainerList.find((trn) => trn.trainerId === idTrainer)
-
-
-
-            if (trainer) {
-
-                return trainer
-
-            }
-
-            else {
-                return "trainer data not fetch"
-            }
-
-        }
+        const getTrainer = await TrainerModel.findOne({_id})
+        return getTrainer
 
     } catch (error) {
         throw new Error(error.message)
@@ -80,7 +25,15 @@ const getTrainerById = async(trainerId) => {
 }
 
 
-const getTrainers = (trainers) => {
+const getTrainers = async() => {
+    try{
+        const trainersGet = await TrainerModel.find()
+
+        return trainersGet
+
+    }catch(err){
+        throw new Error(err.message)
+    }
 
 
 
@@ -90,45 +43,76 @@ const getTrainers = (trainers) => {
 
 
 
-const updateTrainerById = (trainer, trainerId) => {
+const updateTrainerById = async(trainer, _id) => {
     try {
-        if (trainer?.trainerId && trainerId) {
-            console.log('hellooooooo')
+        const updateTrainer = await TrainerModel.updateOne(
+            {_id},
+            {$set : trainer},
+            {upsert:false}
+        )
 
-            trainerList = trainerList.map((trn) => {
-                if (trn.trainerId == trainerId) {
-                    return {
-                        ...trainer,
-                        trainerId: trn.trainerId
-                    }
-
-                }
-                return trn
-
-
-            })
-
-            return "trainer data successfully updated"
-
-
-
-        }
-        else {
-            return "trainer data not updated"
-        }
+        return updateTrainer
 
     } catch (error) {
         throw new Error(error.message)
     }
 
 }
+
+
+const updateTrainers = async(trainer) => {
+    try {
+        const trainersUpdate = await TrainerModel.updateMany(
+            // {_id},
+            {$set : trainer},
+            {upsert:false}
+        )
+
+        return trainersUpdate
+
+    } catch (error) {
+        throw new Error(error.message)
+    }
+
+}
+
+
+const deleteTrainerById = async(_id) => {
+    try {
+        const deleteTrainer = await TrainerModel.deleteOne({_id})
+        return deleteTrainer
+
+    } catch (error) {
+        throw new Error(error.message)
+    }
+
+}
+
+const deleteTrainers = async() => {
+    try{
+        const trainersDelete = await TrainerModel.deleteMany()
+
+        return trainersDelete
+
+    }catch(err){
+        throw new Error(err.message)
+    }
+
+
+
+}
+
+
 
 
 module.exports = {
     createTrainer,
     getTrainerById,
     getTrainers,
-    updateTrainerById
+    updateTrainerById,
+    updateTrainers,
+    deleteTrainerById,
+    deleteTrainers
 }
 
 

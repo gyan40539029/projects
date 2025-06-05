@@ -1,63 +1,25 @@
-let coursesList = []
 
-const { courseModel } = require('./../model/course.model')
+const { CourseModel } = require('./../model/course.model')
 
-const createCourse = async (course) => {  //need to name chang createCollege
+const createCourse = async (course) => {  
 
     try {
-        if (course.courseId && !coursesList.some(corse => corse.courseId == course.courseId)) {
+       const courseCreate = await CourseModel.insertOne(course)
 
-            await courseModel.insertOne({
-
-                courseName: "BCA",
-                courseType: "offline",
-                program: "aca",
-                duration: 5,
-                status: "active",
-                startDate: 1,
-                endDate: 31,
-
-            })
-            console.log('hellow')
-            coursesList.push(course)
-
-
-            return course
-
-        }
-
-
-        else {
-            return "course not created"
-        }
+       return courseCreate
     } catch (error) {
         throw new Error(error.message)
     }
 }
 
 
-const getCourseById = async(courseId) => {  /// need to getCollegebyId  
+const getCourseById = async(_id) => {  
     try {
-        if (courseId) {
-            const idCourse = parseInt(courseId)
 
-            await courseModel.findOne({_id:"55555555555"})
+        const course  = await CourseModel.findOne({_id})
+        return course
+       
 
-            let course = coursesList.find((course) => course.courseId === idCourse)
-
-
-
-            if (course) {
-
-                return course
-
-            }
-
-            else {
-                return "course data not fetch"
-            }
-
-        }
 
     } catch (error) {
         throw new Error(error.message)
@@ -66,7 +28,15 @@ const getCourseById = async(courseId) => {  /// need to getCollegebyId
 }
 
 
-const getCourses = (colleges) => {
+const getCourses = async () => {
+    try{
+
+        const coursesGet = await CourseModel.find()
+        return coursesGet
+
+    }catch(err){
+        throw new Error(err.message)
+    }
 
 
 
@@ -76,37 +46,72 @@ const getCourses = (colleges) => {
 
 
 
-const updateCourseById = (course, courseId) => {
+const updateCourseById = async (course, _id) => {
     try {
-        if (course?.courseId && courseId) {
-            console.log(typeof course.courseId, course.courseId)
-            console.log(typeof courseId, courseId)
+        const updateCourse = await CourseModel.updateOne(
+            {_id},
 
-            coursesList = coursesList.map((corse) => {
-                if (corse.courseId == courseId) {
-                    return {
-                        ...course,
-                        courseId: course.courseId
-                    }
-
-                }
-                return course
+            {$set:course},
+            {upsert:false}
 
 
-            })
-
-            return "course data successfully updated"
-
-
-
-        }
-        else {
-            return "course data not updated"
-        }
+        )
+        return updateCourse
+        
 
     } catch (error) {
         throw new Error(error.message)
     }
+
+}
+
+const updateCourses = async (course) => {
+    try {
+        const coursesUpdate = await CourseModel.updateMany(
+            // {_id},
+
+            {$set:course},
+            {upsert:false}
+
+
+        )
+
+        return coursesUpdate
+        
+
+    } catch (error) {
+        throw new Error(error.message)
+    }
+
+}
+
+
+const deleteCourseById = async(_id) => {  
+    try {
+
+        const deleteCourse  = await CourseModel.deleteOne({_id})
+        return deleteCourse
+       
+
+
+    } catch (error) {
+        throw new Error(error.message)
+    }
+
+}
+
+
+const deleteCourses = async () => {
+    try{
+
+        const coursesDelete = await CourseModel.deleteMany()
+        return coursesDelete
+
+    }catch(err){
+        throw new Error(err.message)
+    }
+
+
 
 }
 
@@ -114,7 +119,11 @@ const updateCourseById = (course, courseId) => {
 module.exports = {
     createCourse,
     getCourseById,
-    updateCourseById
+    getCourses,
+    updateCourseById,
+    updateCourses,
+    deleteCourseById,
+    deleteCourses
 }
 
 

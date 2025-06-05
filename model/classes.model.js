@@ -3,21 +3,21 @@ const mongoose = mongooseHeper.getConnecton()
 
 const classSchema = new mongoose.Schema({
 
-    classId: { type: "Number" },
-    className: { type: "string" },
-    section: { type: "string" },
-    startDate: { type: "Number" },
-    endDate: { type: "Number" },
-    classTeacher: { type: "string" },
-    status: { type: "string" }
+    classId: { type: Number },
+    className: { type: String },
+    section: { type: String },
+    startDate: { type: Number },
+    endDate: { type: Number },
+    classTeacher: { type: String },
+    status: { type: String }
 
 
 })
 
 
-const classModel = mongoose.model('classModel', classSchema, "Classes Registration Form")
+const ClassModel = mongoose.model('classModel', classSchema, "Classes Registration Form")
 
 
 module.exports = {
-    classModel
+    ClassModel
 }

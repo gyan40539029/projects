@@ -3,39 +3,16 @@ const courseHelper = require('../helpers/courses.helpers')
 const createCourse = async (req, res) => {
     try {
         const course = req.body
+        const courseCreate = await courseHelper.createCourse(course)
+        console.log(courseCreate)
+        return res.status(201).json({
+            status : "added new course  successfully",
+            result : courseCreate
+
+        })
         
-        if (course?.courseId) {
-
-            const course_rcd = await courseHelper.createCourse(course)
-
-            if (course_rcd === "course not created") {
-                return res.status(401).json({
-                    status: "already exhisting course on this id",
-                    result: course_rcd
-
-                })
-
-            }
-
-            else {
-
-                return res.status(201).json({
-                    status: "new course added successfully",
-                    result: course_rcd
-
-                })
-
-            }
-
-        }
-        else {
-            return res.status(404).json({
-                status: "error",
-                desc: "please enter the course id"
-            })
-        }
-    }
-    catch (err) {
+       
+    }catch (err) {
         console.log("internal error", err, err.message);
 
 
@@ -54,31 +31,15 @@ const createCourse = async (req, res) => {
 
 const getCourseById = async (req, res) => {
     try {
-        const courseId = req.params.courseId //// need to  change query to param
+        const courseId = req.params._id
         const courseRecord = await courseHelper.getCourseById(courseId)
+        console.log(courseRecord)
+        return res.status(201).json({
+            status : "added new course successfully",
+            result : courseRecord
+        })
        
-        if (courseId > 0) {
-          
-            
-            if (courseRecord === "course data not fetch") {
-                return res.status(401).json({
-                    status: "error",
-                    result: courseRecord
-                })
-            }
-            else {
-                return res.status(201).json({
-                    status: "data fetch successfully",
-                    result: courseRecord
-                })
-            }
-        } else {
-            console.log('hellow brother')
-            return res.status(501).json({
-                status: "missing field input",
-                remdy: "please enter the courseId"
-            })
-        }
+       
     } catch (err) {
         console.log(err,err.message)
         return res.status(500).json({
@@ -89,42 +50,48 @@ const getCourseById = async (req, res) => {
 
 }
 
-const getCourses = (req, res) => {                     /// daat come in query
+const getCourses = async(req, res) => {                     /// daat come in query
 
-}
-
-const updateCourseById = (req, res) => {   /// update college by id  need to change  and neet to param for id
     try{
-    const courseData = req.body
-    const courseId = req.params.courseId
-   
 
-    if ((courseData && Object.keys(courseData).length > 0) && courseId > 0) {
-        const data = courseHelper.updateCourseById(courseData,courseId)
+        const coursesGet  = await courseHelper.getCourses()
+        console.log(coursesGet)
 
-        if (data == "course data successfully updated") {
-           return  res.status(201).json({
-                status: "course update successfully",
-                result: courseData
-            })
+        return res.status(201).json({
+            status : "all courses data fetch successfuly",
+            result : coursesGet
+        })
 
-        }
-        else {
-           return res.status(401).json({
-                status: "course data not updated"
-            })
-        }
-    }
 
-    else {
-         console.log('hellow')
-      return  res.status(401).json({
-            status: "course data empty or courseId empty",
-            remdy : "check the course data or courseId"
-           
+
+    }catch(err){
+        console.log(err, err.message)
+        return res.status(403).json({
+            status : "internal error",
+            result :err.message
         })
     }
 
+}
+
+const updateCourseById = async(req, res) => {   
+    try{
+    const courseData = req.body
+    const courseId = req.params._id
+
+    const updateCourse =  await courseHelper.updateCourseById(courseData, courseId)
+
+    console.log(updateCourse)
+
+    return res.status(201).json({
+        status : "course updated successfully",
+        result :updateCourse
+    })
+
+
+   
+
+   
 }catch(err){
     console.log(err,err.message)
     return res.status(505).json({
@@ -136,17 +103,78 @@ const updateCourseById = (req, res) => {   /// update college by id  need to cha
 }
 
 
-const updateCourses = (req, res) => {
+const updateCourses = async(req, res) => {
+    try{
+      
+        const course = req.body
+        const coursesUpdate = await courseHelper.updateCourses(course)
+        console.log(coursesUpdate)
+
+        return res.status(201).json({
+            status : "course data updated successfully",
+            result : coursesUpdate
+        })
+    
+
+
+    }catch(err){
+        console.log(err, err.message)
+        return res.status(501).json({
+            status : "internal error",
+            result :err.message
+
+        })
+    }
 
 }
 
 
-const deleteCourseById = (req,res)=>{
+const deleteCourseById = async(req,res)=>{
+
+    try{
+
+        const courseId  =  req.params._id
+
+        const deleteCourse = await courseHelper.deleteCourseById(courseId)
+
+        console.log(deleteCourse)
+        return res.status(201).json({
+            status:"delete course successfully",
+            result: deleteCourse
+        })
+
+
+
+    }catch(err){
+        console.log(err, err.message)
+        return res.status(505).json({
+            status : "internal error",
+            result : err.message
+        })
+    }
 
 }
 
 
-const deleteCourses = (req,res)=>{
+const deleteCourses = async(req,res)=>{
+    try{
+
+        const coursesDelete = await courseHelper.deleteCourses()
+        console.log(coursesDelete)
+        return res.status(201).json({
+            status : " all courses delete successfully",
+            result : coursesDelete
+
+        })
+
+
+    }catch(err){
+        console.log(err, err.message)
+        return res.status({
+            status : "internal error",
+            result : err.message
+        })
+    }
 
 }
 

@@ -3,31 +3,31 @@ const mongoose = mongooseHelper.getConnecton()
 
 const studentSchema = new mongoose.Schema({
 
-    fullName: { type: "string" },
-    studentId: { type: "Number" },
-    emailAddress: { type: "string" },
-    phoneNumber: { type: "Number" },
-    password: { type: "string" },
-    confirmPassword: { type: "string" },
-    smsAuthentication: { type: "Number" },
-    profilePicture: { type: "string" },
-    DOB: { type: "Number" },
-    gender: { type: "string" },
+    fullName: { type: String },
+    studentId: { type: Number },
+    emailAddress: { type: String },
+    phoneNumber: { type: Number },
+    password: { type: String },
+    confirmPassword: { type: String },
+    smsAuthentication: { type: Number },
+    profilePicture: { type: String },
+    DOB: { type: Number },
+    gender: { type: String },
     addresss: {
         type: Object,
-        street: { type: "string" },
-        city: { type: "string" },
-        zip: { type: "Number" },
-        country: { type: "string" }
+        street: { type: String },
+        city: { type: String },
+        zip: { type: Number },
+        country: { type: String }
     }
 
 })
 
 
-const studentModel = mongoose.model('studentModel', studentSchema, "Student Registration")
+const StudentModel = mongoose.model('studentModel', studentSchema, "Student Registration")
 
 
 
 module.exports = {
-    studentModel
+    StudentModel
 }

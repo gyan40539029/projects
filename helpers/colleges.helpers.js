@@ -1,69 +1,31 @@
-let collegeList = []
-const {collegeModel} = require('./../model/college.model')
 
-const createCollege = async(college)=>{  //need to name chang createCollege
+const {CollegeModel} = require('./../model/college.model')
+
+const createCollege = async(college)=>{  
 
     try{
-if(college.collegeId && !collegeList.some(clg=>clg.collegeId == college.collegeId)){
 
-    await collegeModel.insertOne({
-        collegeName : "Sant pushpa inter college",
-        collegeCode : 101,
-        collegeLogo : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpngtree.com%2Fso%2Fcollege-logo&psig=AOvVaw174X8v9MIMJuYckE8hSOhf&ust=1747905611650000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLjM0_udtI0DFQAAAAAdAAAAABAV",
-         Email:"rockwell9029@gmailcom",
-         Phone : 9873251643,
-         Website: "www.google.com",
-         establishmentYear : 2005,
-         Address : {
-           Street : "hmt",
-           City : "Delhi",
-           State : "delhi",
-           Country : "india",
-           Zip : 221415
-         }
-    })
-    
-    console.log('hellow')
-    collegeList.push(college)
+        const createCollege = await CollegeModel.insertOne(college)
 
-    
-    return college
-
-}
+        return createCollege
 
 
-else{
-    return "college not created"
-}
+
+
 }catch(error){
     throw new Error(error.message)
 }
 }
 
 
-const getCollegebyId = async(collegeId)=>{  /// need to getCollegebyId  
+const getCollegebyId = async(_id)=>{  /// need to getCollegebyId  
     try{
-   if(collegeId){
-    const idCollege = parseInt(collegeId)
 
-    await collegeModel.findOne({collegeId : "123456789"})
-   
-    let college = collegeList.find((clg)=>clg.collegeId === idCollege )
-    
-
-    
-    if(college){
-        
+        const college = await CollegeModel.findOne({_id})
         return college
 
-    }
 
-    else{
-        return "college data not fetch"
-    }
-
-   }
-
+   
 }catch(error){
     throw new Error(error.message)
 }
@@ -71,55 +33,108 @@ const getCollegebyId = async(collegeId)=>{  /// need to getCollegebyId
 }
 
 
-const getColleges = (colleges)=>{
-
-
-
-   }
-
-
-
-
-
-const updateCollegeById = (college,collegeId)=>{
+const getColleges = async()=>{
     try{
-    if(college?.collegeId && collegeId){
-        console.log('hellooooooo')
 
-        collegeList = collegeList.map((clg)=>{
-            if(clg.collegeId == collegeId){
-                return {
-                    ...college,
-                     collegeId : clg.collegeId
-                }
-                
-            }
-            return clg
+    const colleges = await CollegeModel.find()
+    return colleges
+
+
+}catch(err){
+    throw new Error(err.message)
+
+}
+
+}
+
+   
+
+
+
+
+
+const updateCollegeById = async(college,_id)=>{
+    try{
+        const upadteCollege = await CollegeModel.updateOne(
+            {_id},
+            {$set:college},
+            {upsert:false}
+
+        )
+
+        return upadteCollege
+
+
     
-           
-        })
-
-        return "college data successfully updated"
-    
-
-
-    }
-    else{
-        return "college data not updated"
-    }
-
 }catch(error){
     throw new Error(error.message)
 }
     
 }
+
+
+const updateColleges = async(college)=>{
+    try{
+        const collegesUpdate = await CollegeModel.updateMany(
+            // {_id},
+            {$set:college},
+            {upsert:false}
+
+        )
+
+        return collegesUpdate
+
+
+    
+}catch(error){
+    throw new Error(error.message)
+}
+    
+}
+
+
+const deleteCollegebyId = async(_id)=>{  /// need to getCollegebyId  
+    try{
+
+        const deleteCollege = await CollegeModel.deleteOne({_id})
+        return deleteCollege
+
+
+   
+}catch(error){
+    throw new Error(error.message)
+}
+
+}
+
+
+
+const deleteColleges = async()=>{
+    try{
+
+    const collegesDelete = await CollegeModel.deleteMany()
+    return collegesDelete
+
+
+}catch(err){
+    throw new Error(err.message)
+
+}
+
+}
+
+
+
 
 
 module.exports={
 createCollege,
 getCollegebyId,
 getColleges,
-updateCollegeById
+updateCollegeById,
+updateColleges,
+deleteCollegebyId,
+deleteColleges
 }
 
 

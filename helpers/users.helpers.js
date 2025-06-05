@@ -1,73 +1,25 @@
-let userList = []
 
-const { userModel } = require('./../model/users.model')
+const { UserModel } = require('./../model/users.model')
 
 const createUser = async (user) => {
 
     try {
-        if (user.userId && !userList.some(usr => usr.userId == user.userId)) {
-
-            await userModel.insertOne({
-
-                fullName: "gyan",
-                userId: "24455",
-                userName: "ggava",
-                emailAddress: "gyan40539029@gmail.com",
-                phoneNumber: 9873251643,
-                password: "vugusdggugasuyh",
-                confirmPassword: "bygacgg8gaayvsca",
-                smsAuthentication: 456,
-                profilePicture: "img_url",
-                DOB: 1998,
-                gender: "male",
-                RoleAccessLevel: "admin",
-                Status: "active",
-                department: "adm"
+        const userCreate = await UserModel.insertOne(user)
+        return userCreate
 
 
-
-            })
-
-
-            console.log('hellow')
-            userList.push(user)
-
-
-            return user
-
-        }
-
-
-        else {
-            return "user not created"
-        }
     } catch (error) {
         throw new Error(error.message)
     }
 }
 
 
-const getUserById = (userId) => {
+const getUserById = async(_id) => {
     try {
-        if (userId) {
-            const idUser = parseInt(userId)
 
-            let user = userList.find((usr) => usr.userId === idUser)
-
-
-
-            if (user) {
-
-                return user
-
-            }
-
-            else {
-                return "user data not fetch"
-            }
-
-        }
-
+        const getUser = await UserModel.findOne({_id})
+        return getUser
+      
     } catch (error) {
         throw new Error(error.message)
     }
@@ -75,7 +27,16 @@ const getUserById = (userId) => {
 }
 
 
-const getUsers = (users) => {
+const getUsers = async() => {
+    try{
+
+        const usersGet = await UserModel.find()
+
+        return usersGet
+
+    }catch(err){
+        throw new Error(err.message)
+    }
 
 
 
@@ -85,45 +46,78 @@ const getUsers = (users) => {
 
 
 
-const updateUserById = (user, userId) => {
+const updateUserById = async(user, _id) => {
     try {
-        if (user?.userId && userId) {
-            console.log('hellooooooo')
 
-            userList = userList.map((usr) => {
-                if (usr.userId == userId) {
-                    return {
-                        ...user,
-                        userId: usr.userId
-                    }
+        const updateUser = await UserModel.updateOne(
+            {_id},
+            {$set:user},
+            {upsert:false}
+        )
 
-                }
-                return usr
-
-
-            })
-
-            return "user data successfully updated"
-
-
-
-        }
-        else {
-            return "user data not updated"
-        }
-
+        return updateUser
+       
     } catch (error) {
         throw new Error(error.message)
     }
 
 }
+
+const updateUsers = async(user) => {
+    try {
+
+        const usersUpdate = await UserModel.updateMany(
+            // {_id},
+            {$set:user},
+            {upsert:false}
+        )
+
+        return usersUpdate
+       
+    } catch (error) {
+        throw new Error(error.message)
+    }
+
+}
+
+const deleteUserById = async(_id) => {
+    try {
+
+        const deleteUser = await UserModel.deleteOne({_id})
+        return deleteUser
+      
+    } catch (error) {
+        throw new Error(error.message)
+    }
+
+}
+
+const deleteUsers = async() => {
+    try{
+
+        const usersDelete = await UserModel.deleteMany()
+
+        return usersDelete
+
+    }catch(err){
+        throw new Error(err.message)
+    }
+
+
+
+}
+
+
 
 
 module.exports = {
     createUser,
     getUserById,
     getUsers,
-    updateUserById
+    updateUserById,
+    updateUsers,
+    deleteUserById,
+    deleteUsers
 }
 
 

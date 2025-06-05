@@ -1,17 +1,13 @@
 const mongoose = require('mongoose')
 
-const mongooseConnection = async ()=>{
-    const connectionString = "mongodb+srv://gyan:9873251643@appdatabase.sfplrpa.mongodb.net/gyan?retryWrites=true&w=majority&appName=appDatabase"
-    await mongoose.connect(connectionString)
+const mongooseConnection = async ()=>{   /// use try and catch for error handeling
+    
+    const connectionString = process.env.MONGOURL
+    await mongoose.connect(connectionString,{dbName:"Accounts"})// control+space
 }
 
 mongooseConnection()
-.then(()=>{
-    console.log("connection has been esteblished")
-})
-.catch((err)=>{
-    console.log("connection failed",err.message)
-})
+
 
 
 const getConnecton  = ()=>{

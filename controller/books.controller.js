@@ -1,41 +1,20 @@
 
 const bookHelper = require('../helpers/books.helpers')
-const createBook = async(req, res) => {
+const createBook = async (req, res) => {
     try {
         const book = req.body
-        
-        if (book?.bookId) {
+        const book_rcd = await bookHelper.createBook(book)
+        console.log(book_rcd)
 
-            const book_rcd = await bookHelper.createBook(book)
+        return res.status(201).json({
+            status:"book added successfully",
+            result :book_rcd
+        })
 
-            if (book_rcd === "book not created") {
-                return res.status(401).json({
-                    status: "already exhisting book on this id",
-                    result: book_rcd
 
-                })
 
-            }
 
-            else {
-
-                return res.status(201).json({
-                    status: "new book added successfully",
-                    result: book_rcd
-
-                })
-
-            }
-
-        }
-        else {
-            return res.status(404).json({
-                status: "error",
-                desc: "please enter the book id"
-            })
-        }
-    }
-    catch (err) {
+    } catch (err) {
         console.log("internal error", err, err.message);
 
 
@@ -49,40 +28,26 @@ const createBook = async(req, res) => {
 
 
     }
-
 }
 
-const getBookById = async(req, res) => {
+
+
+const getBookById = async (req, res) => {
     try {
-        const bookId = req.params.bookId //// need to  change query to param
-         console.log(bookId)
+        const bookId = req.params._id 
+        console.log(bookId)
         const bookRecord = await bookHelper.getBookById(bookId)
-       
-       
-        if (bookId > 0) {
-          
-            
-            if (bookRecord === "book data not fetch") {
-                return res.status(401).json({
-                    status: "error",
-                    result: bookRecord
-                })
-            }
-            else {
-                return res.status(201).json({
-                    status: "data fetch successfully",
-                    result: bookRecord
-                })
-            }
-        } else {
-            console.log('hellow brother')
-            return res.status(501).json({
-                status: "missing field input",
-                remdy: "please enter the bookId"
-            })
-        }
+        console.log(bookRecord)
+
+        return res.status(201).json({
+            status : "book data successfully fetched",
+            result : bookRecord
+        })
+
+
+        
     } catch (err) {
-        console.log(err,err.message)
+        console.log(err, err.message)
         return res.status(500).json({
             error: "internal error",
             result: err.message
@@ -91,64 +56,121 @@ const getBookById = async(req, res) => {
 
 }
 
-const getBooks = (req, res) => {                     /// daat come in query
+const getBooks = async(req, res) => {   //data come in query
+    try{
+    
+    const booksGet = await bookHelper.getBooks()
+    console.log(booksGet)
+
+    return res.status(201).json({
+        status : "all books data fetched successfully",
+        result : booksGet
+    })
+}catch(err){
+    console.log(err, err.message)
+
+    return res.status(501).json({
+        status : "internal error",
+        result : err.message
+})
+}
 
 }
 
-const updateBookById = (req, res) => {   /// update college by id  need to change  and neet to param for id
-    try{
-    const bookData = req.body
-    const bookId = req.params.bookId
-   
+const updateBookById = async(req, res) => {   
+    try {
+        const bookData = req.body
+        const bookId = req.params._id
 
-    if ((bookData && Object.keys(bookData).length > 0) && bookId > 0) {
-        const data = bookHelper.updateBookById(bookData,bookId)
+        const updateBook = await bookHelper.updateBookById(bookData,bookId)
+        console.log(updateBook)
 
-        if (data == "book data successfully updated") {
-           return  res.status(201).json({
-                status: "book data update successfully",
-                result: bookData
-            })
+        return res.status(201).json({
+            status :"book data successfully updated",
+            result : updateBook
+        })
 
-        }
-        else {
-           return res.status(401).json({
-                status: "book data not updated"
-            })
-        }
+
+
+
+        
+    } catch (err) {
+        console.log(err, err.message)
+        return res.status(505).json({
+            error: "internal error",
+            desc: err.message
+
+        })
     }
+}
 
-    else {
-         console.log('hellow')
-      return  res.status(401).json({
-            status: "book data empty or bookId empty",
-            remdy : "check the book data or bookId"
-           
+
+const updateBooks = async(req, res) => {
+
+    try{
+
+        const books = req.body
+
+        const booksUpdate = await bookHelper.updateBooks(books)
+        console.log(booksUpdate)
+        return res.status(201).json({
+            status:"All books data update successfully",
+            result : booksUpdate
+        })
+
+
+    } catch(err){
+        console.log(err, err.message)
+        return res.status(403).json({
+            status : "internal error",
+            result : err.message
         })
     }
 
+}
+
+
+const deleteBookById = async(req, res) => {
+
+    try{
+
+    const bookId = req.params._id
+
+    const deleteBook = await bookHelper.deleteBookById(bookId)
+    console.log(deleteBook)
+    return res.status(201).json({
+        status : "book deleted  successfully"
+    })
 }catch(err){
     console.log(err,err.message)
-    return res.status(505).json({
-        error : "internal error",
-        desc : err.message
-
+    return res.status(403).json({
+        status:"internal error",
+        result : err.message
     })
 }
-}
-
-
-const updateBooks = (req, res) => {
 
 }
 
 
-const deleteBookById = (req,res)=>{
+const deleteBooks = async(req, res) => {
+    try{
 
+    const booksDelete = await bookHelper.deleteBooks()
+
+    console.log(booksDelete)
+    return res.status(201).json({
+        status:"all book deleted successfully",
+        result :booksDelete
+    })
+
+}catch(err){
+    console.log(err,err.message)
+    return res.status(501).json({
+        status : "internal error",
+        result : err.message
+    })
 }
 
-
-const deleteBooks = (req,res)=>{
 
 }
 

@@ -3,32 +3,32 @@ const mongoose = mongooseHelper.getConnecton()
 
 const trainerSchema = new mongoose.Schema({
 
-    trainerId: { type: "Number" },
-    fullName: { type: "string" },
-    emailAddress: { type: "string" },
-    phoneNumber: { type: "Number" },
-    gender: { type: "string" },
-    Dob: { type: "Number" },
-    profilePhoto: { type: "string" },
-    qualification: { type: "string" },
-    expertise: { type: "string" },
-    experiance: { type: "Number" },
+    trainerId: { type: Number },
+    fullName: { type: String },
+    emailAddress: { type: String },
+    phoneNumber: { type: Number },
+    gender: { type: String },
+    Dob: { type: Number },
+    profilePhoto: { type: String },
+    qualification: { type: String },
+    expertise: { type: String },
+    experiance: { type: Number },
     address: {
         type: Object,
-        street: { type: "string" },
-        city: { type: "string" },
-        State: { type: "string" },
-        zipCode: { type: "Number" },
-        trainerType: { type: "string" },
-        Status: { type: "string" }
+        street: { type: String },
+        city: { type: String },
+        State: { type: String },
+        zipCode: { type: Number },
+        trainerType: { type: String },
+        Status: { type: String }
     }
 
 })
 
 
 
-const trainerModel = mongoose.model('trainerModel', trainerSchema, "Trainer Registration")
+const TrainerModel = mongoose.model('trainerModel', trainerSchema, "Trainer Registration")
 
 module.exports = {
-    trainerModel
+    TrainerModel
 }

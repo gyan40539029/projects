@@ -3,40 +3,17 @@ const classHelper = require('../helpers/classes.helpers')
 const createClass = async (req, res) => {
     try {
         const claas = req.body
+       const classCreate = await classHelper.createClass(claas)
+
+       console.log(classCreate)
+       return res.status(201).json({
+        status : "new class added successfully",
+        result : classCreate
+       })
         
-        if (claas?.classId) {
+    }catch (err) {
+        console.log("internal error", err, err.message);0
 
-            const class_rcd = await classHelper.createClass(claas)
-
-            if (class_rcd === "class not created") {
-                return res.status(401).json({
-                    status: "already exhisting college on this id",
-                    result: class_rcd
-
-                })
-
-            }
-
-            else {
-
-                return res.status(201).json({
-                    status: "new class added successfully",
-                    result: class_rcd
-
-                })
-
-            }
-
-        }
-        else {
-            return res.status(404).json({
-                status: "error",
-                desc: "please enter the class id"
-            })
-        }
-    }
-    catch (err) {
-        console.log("internal error", err, err.message);
 
 
         return res.status(501).json({
@@ -54,31 +31,16 @@ const createClass = async (req, res) => {
 
 const getClassById = async(req, res) => {
     try {
-        const classId = req.params.classId //// need to  change query to param
+        const classId = req.params._id 
         const classRecord = await classHelper.getClassbyId(classId)
+        console.log(classRecord)
+        return res.status(201).json({
+            status:"class data fetch successfully",
+            result :classRecord
+        })
+
        
-        if (classId > 0) {
-          
-            
-            if (classRecord === "class data not fetch") {
-                return res.status(401).json({
-                    status: "error",
-                    result: classRecord
-                })
-            }
-            else {
-                return res.status(201).json({
-                    status: "class data fetch successfully",
-                    result: classRecord
-                })
-            }
-        } else {
-            console.log('hellow brother')
-            return res.status(501).json({
-                status: "missing field input",
-                remdy: "please enter the classId"
-            })
-        }
+       
     } catch (err) {
         console.log(err,err.message)
         return res.status(500).json({
@@ -89,42 +51,41 @@ const getClassById = async(req, res) => {
 
 }
 
-const getClasses = (req, res) => {                     /// daat come in query
+const getClasses = async(req, res) => {                     /// daat come in query
+    try{
+
+    const classesGet = await classHelper.getClasses()
+    console.log(classesGet)
+    return res.status(201).json({
+        status:"all class data fetch successfully",
+        result : classesGet
+    })
+
+}catch(err){
+    console.log(err, err.message)
+    return res.status(501).json({
+        status : "internal error",
+        result :err.message
+    })
 
 }
+}
 
-const updateClassById = (req, res) => {   /// update college by id  need to change  and neet to param for id
+const updateClassById = async(req, res) => {   
     try{
     const classData = req.body
-    const classId = req.params.classId
+    const classId = req.params._id
+
+    const updateClass= await classHelper.updateClassById(classData,classId)
+    console.log(updateClass)
+
+    return res.status(201).json({
+        status : "class data update successfully",
+        result : updateClass
+    })
    
 
-    if ((classData && Object.keys(classData).length > 0) && classId > 0) {
-        const data = classHelper.updateClassById(classData,classId)
-
-        if (data == "class data successfully updated") {
-           return  res.status(201).json({
-                status: " class data update successfully",
-                result: classData
-            })
-
-        }
-        else {
-           return res.status(401).json({
-                status: "class data not updated"
-            })
-        }
-    }
-
-    else {
-         console.log('hellow')
-      return  res.status(401).json({
-            status: "class data empty or classId empty",
-            remdy : "check the class data or classId"
-           
-        })
-    }
-
+   
 }catch(err){
     console.log(err,err.message)
     return res.status(505).json({
@@ -136,17 +97,69 @@ const updateClassById = (req, res) => {   /// update college by id  need to chan
 }
 
 
-const updateClasses = (req, res) => {
+const updateClasses =async (req, res) => {
+    try{
+    const claas = req.body
+    const classesUpdate = await classHelper.updateClasses(claas)
+    console.log(classesUpdate)
+    return res.status(201).json({
+        status :"All class data update successfully",
+        result : classesUpdate
+    })
+
+}catch(err){
+    console.log(err,err.message)
+    return res.status(403).json({
+        status:"internal error",
+        result: err.message
+    })
+}
 
 }
 
 
-const deleteClassById = (req,res)=>{
+const deleteClassById = async(req,res)=>{
+
+    try {
+        const classId = req.params._id 
+        const deleteClass = await classHelper.deleteClassbyId(classId)
+        console.log(deleteClass)
+        return res.status(201).json({
+            status:"class data fetch successfully",
+            result :deleteClass
+        })
+
+       
+       
+    } catch (err) {
+        console.log(err,err.message)
+        return res.status(500).json({
+            error: "internal error",
+            result: err.message
+        })
+    }
 
 }
 
 
-const deleteClasses = (req,res)=>{
+const deleteClasses = async(req,res)=>{
+    try{
+
+    const classesDelete = await classHelper.deleteClasses()
+
+    console.log(classesDelete)
+    return res.status(201).json({
+        status :"all class data deleted successfully",
+        result : classesDelete
+    })
+
+}catch(err){
+    console.log(err,err.message)
+    return res.status(403).json({
+        status : "internal error",
+        result : err.message
+    })
+}
 
 }
 

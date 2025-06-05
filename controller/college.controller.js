@@ -3,40 +3,16 @@ const collegeHelper = require('../helpers/colleges.helpers')
 const createCollege = async(req, res) => {
     try {
         const college = req.body
+
+        const collegeCreate = await collegeHelper.createCollege(college)
+        console.log(collegeCreate)
+        return res.status(201).json({
+            status:"college added successfully",
+            result : collegeCreate
+        })
         
-        if (college?.collegeId) {
-
-            const college_rcd = await collegeHelper.createCollege(college)
-            console.log(college_rcd)
-
-            if (college_rcd === "college not created") {
-                return res.status(401).json({
-                    status: "already exhisting college on this id",
-                    result: college_rcd
-
-                })
-
-            }
-
-            else {
-
-                return res.status(201).json({
-                    status: "new college added successfully",
-                    result: college
-
-                })
-
-            }
-
-        }
-        else {
-            return res.status(404).json({
-                status: "error",
-                desc: "please enter the college id"
-            })
-        }
-    }
-    catch (err) {
+       
+    }catch (err) {
         console.log("internal error", err, err.message);
 
 
@@ -55,31 +31,18 @@ const createCollege = async(req, res) => {
 
 const getCollegebyId = async(req, res) => {
     try {
-        const collegeId = req.params.collegeId //// need to  change query to param
+        const collegeId = req.params._id 
         const collegeRecord = await collegeHelper.getCollegebyId(collegeId)
+
+        console.log(collegeRecord)
+
+
+        return res.status(201).json({
+            status : "college data fetch successfully",
+            result : collegeRecord
+        })
        
-        if (collegeId > 0) {
-          
-            
-            if (collegeRecord === "college data not fetch") {
-                return res.status(401).json({
-                    status: "error",
-                    result: collegeRecord
-                })
-            }
-            else {
-                return res.status(201).json({
-                    status: "data fetch successfully",
-                    result: collegeRecord
-                })
-            }
-        } else {
-            console.log('hellow brother')
-            return res.status(501).json({
-                status: "missing field input",
-                remdy: "please enter the collegeId"
-            })
-        }
+        
     } catch (err) {
         console.log(err,err.message)
         return res.status(500).json({
@@ -90,41 +53,41 @@ const getCollegebyId = async(req, res) => {
 
 }
 
-const getColleges = (req, res) => {                     /// daat come in query
+const getColleges = async(req, res) => { 
+    try{                    /// daat come in query
 
+    const collegesGet = await collegeHelper.getColleges()
+    console.log(collegesGet)
+
+    return res.status(201).json({
+        status : "all college data fetch successfully",
+        result : collegesGet
+    })
+}catch(err){
+    console.log(err, err.message)
+
+    return res.status(403).json({
+        status:"internal error",
+        result: err.message
+    })
+}
 }
 
-const updateCollegeById = (req, res) => {   /// update college by id  need to change  and neet to param for id
+const updateCollegeById = async(req, res) => {   
     try{
     const collegeData = req.body
-    const collegeId = req.params.collegeId
+    const collegeId = req.params._id
+
+    const upadteCollege = await collegeHelper.updateCollegeById(collegeData,collegeId)
+    console.log(updateColleges)
+
+    return res.status(201).json({
+        status:"college data update successfully",
+        result : upadteCollege
+    })
    
 
-    if ((collegeData && Object.keys(collegeData).length > 0) && collegeId > 0) {
-        const data = collegeHelper.updateCollegeById(collegeData,collegeId)
-
-        if (data == "college data successfully updated") {
-           return  res.status(201).json({
-                status: "data update successfully",
-                result: collegeData
-            })
-
-        }
-        else {
-           return res.status(401).json({
-                status: "data not updated"
-            })
-        }
-    }
-
-    else {
-         console.log('hellow')
-      return  res.status(401).json({
-            status: "college data empty or collegeId empty",
-            remdy : "check the college data or collegeId"
-           
-        })
-    }
+    
 
 }catch(err){
     console.log(err,err.message)
@@ -137,17 +100,76 @@ const updateCollegeById = (req, res) => {   /// update college by id  need to ch
 }
 
 
-const updateColleges = (req, res) => {
+const updateColleges = async(req, res) => {
+    try{
+
+        const colleges = req.body
+
+        const collegesUpdate = await collegeHelper.updateColleges(colleges)
+        console.log(collegesUpdate)
+        return res.status(201).json({
+
+            status:"all college data update successfully",
+            result : collegesUpdate
+
+        })
+
+
+    }catch(err){
+        console.log(err, err.message)
+        return res.status(403).json({
+            status:"internal error",
+            result : err.message
+        })
+    }
 
 }
 
 
-const deleteCollegeById = (req,res)=>{
+const deleteCollegeById = async(req,res)=>{
+    
+    try{
+
+    const collegeId = req.params._id
+
+    const deleteCollege = await collegeHelper.deleteCollegebyId(collegeId)
+    console.log(deleteCollege)
+    return res.status(201).json({
+        status:"college data delete successfully",
+        result: deleteCollege
+    })
+    }catch(err){
+        console.log(err, err.message)
+
+        return res.status(403).json({
+            status : "internal error",
+            result : err.message
+        })
+    }
 
 }
 
 
-const deleteColleges = (req,res)=>{
+const deleteColleges = async(req,res)=>{
+
+    try{
+
+        const collegesDelete = await collegeHelper.deleteColleges()
+        console.log(collegesDelete)
+        return res.status(201).json({
+            status : "all college data successfuly deleted",
+            result :collegesDelete
+        })
+
+
+    }catch(err){
+        console.log(err, err.message)
+
+        return res.status(403).json({
+            status : "internal error",
+            result : err.message
+        })
+    }
 
 }
 

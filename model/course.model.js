@@ -5,20 +5,20 @@ const mongoose = mongooseHeper.getConnecton()
 const courseSchema = new mongoose.Schema({
 
 
-    courseName: { type: "string" },
-    courseType: { type: "string" },
-    program: { type: "string" },
-    duration: { type: "Number" },
-    status: { type: "string" },
-    startDate: { type: "Number" },
-    endDate: { type: "Number" },
+    courseName: { type: String },
+    courseType: { type: String },
+    program: { type: String },
+    duration: { type: Number },
+    status: { type: String },
+    startDate: { type: Number },
+    endDate: { type: Number },
 
 })
 
 
-const courseModel = mongoose.model('courseModel', courseSchema, "Courses Registration Form")
+const CourseModel = mongoose.model('courseModel', courseSchema, "Courses Registration Form")
 
 
 module.exports = {
-    courseModel
+    CourseModel
 }

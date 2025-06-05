@@ -1,60 +1,26 @@
-let accountList = []
-const { accountModel } = require('./../model/accounts.model')
+
+const { AccountModel } = require('./../model/accounts.model')
 
 const createAccount = async (account) => {
 
     try {
-        if (account.accountId && !accountList.some(acnt => acnt.accountId == account.accountId)) {
-
-            await accountModel.insertOne({
-                transactionType: "UPI",
-                transactionDate: 14,
-                accountName:"Gyan",
-                amount: 15000,
-                currency: "INR",
-                paymentMethod:"UPI",
-                transactionMode: "NA",
-                InvoiceId:421
-            })
-
-            console.log('hellow')
-            accountList.push(account)
+        return await AccountModel.insertOne(account)
 
 
-            return account
-
-        }
-
-
-        else {
-            return "account not created"
-        }
     } catch (error) {
         throw new Error(error.message)
     }
 }
 
 
-const getAccountById = async(accountId) => {
+const getAccountById = async (_id) => {
     try {
-        if (accountId) {
-            const idAccount = parseInt(accountId)
-
-            await accountModel.findOne({accountName:"Gyan"})
-
-            let account = accountList.find((acnt) => acnt.accountId === idAccount)
+        if (_id) {
+            const accountData = await AccountModel.findOne({ _id })
 
 
 
-            if (account) {
-
-                return account
-
-            }
-
-            else {
-                return "account data not fetch"
-            }
+            return accountData
 
         }
 
@@ -64,9 +30,21 @@ const getAccountById = async(accountId) => {
 
 }
 
+/// express validator for extra 
 
-const getAccounts = (colleges) => {
 
+const getAccounts = async() => {   //////   should be account  same like other
+
+    try{
+        const accounts = await AccountModel.find()
+
+        return accounts
+
+
+
+    }catch(err){
+        throw new Error(err.message)
+    }
 
 
 }
@@ -75,45 +53,81 @@ const getAccounts = (colleges) => {
 
 
 
-const updateAccountById = (account, accountId) => {
+const updateAccountById = async(accountRecord, _id) => {
     try {
-        if (account?.accountId && accountId) {
-            console.log('hellooooooo')
 
-            accountList = accountList.map((acnt) => {
-                if (acnt.accountId == accountId) {
-                    return {
-                        ...account,
-                        accountId: acnt.accountId
-                    }
+    const updateAccount = await AccountModel.updateOne(
+            {_id},
+            {$set:accountRecord},
+            {upsert:false}
 
-                }
-                return acnt
+           
+        )
+         return updateAccount
 
+       
+        
 
-            })
-
-            return "account data successfully updated"
-
-
-
-        }
-        else {
-            return "account data not updated"
-        }
 
     } catch (error) {
         throw new Error(error.message)
     }
 
 }
+
+
+const deleteAccountById = async (_id) => {   //////   should be account  same like other
+
+  const deleteAccount =   await AccountModel.deleteOne({ _id })
+
+  
+return deleteAccount
+
+}
+
+const deleteAccounts = async () => {   
+
+  const deleteAccount =   await AccountModel.deleteMany()
+
+  
+return deleteAccount
+
+}
+
+
+const updateAccounts = async(accountRecord) => {
+    try {
+
+    const updateAccount = await AccountModel.updateMany
+    (
+            // {_id},
+            {$set:accountRecord},
+            {upsert:false}
+
+           
+        )
+         return updateAccount
+
+       
+        
+
+
+    } catch (error) {
+        throw new Error(error.message)
+    }
+
+}
+
 
 
 module.exports = {
     createAccount,
     getAccountById,
     getAccounts,
-    updateAccountById
+    updateAccountById,
+    updateAccounts,
+    deleteAccountById,
+    deleteAccounts
 }
 
 

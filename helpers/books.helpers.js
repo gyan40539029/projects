@@ -1,72 +1,22 @@
-let bookList = []
 
-const { bookModel } = require('./../model/books.model')
+const { BookModel } = require('./../model/books.model')
 
 const createBook = async (book) => {
 
     try {
-        if (book.bookId && !bookList.some(bk => bk.bookId == book.bookId)) {
-            await bookModel.insertOne({
 
-                bookId: 114,
-                title: "hty",
-                author: "ntpc",
-                edition: "English",
-                language: "lmt",
-                numberOfPages: 412,
-                publishedYear: 2010,
-                rackNumber: 420,
-                numberOfCoppies: 50,
-                price:2020,
-                bookStatus: "Avaliable",
-                bookCondition: "good",
-                bookImages: "url"
+        return await BookModel.insertOne(book)
 
-
-
-
-            })
-            console.log('hellow')
-            bookList.push(book)
-
-
-            return book
-
-        }
-
-
-        else {
-            return "book not created"
-        }
     } catch (error) {
         throw new Error(error.message)
     }
 }
 
 
-const getBookById = async(bookId) => {
+const getBookById = async (_id) => {
     try {
-        if (bookId) {
-            const idBook = parseInt(bookId)
-
-            await bookModel.findOne({_id:"4550050"})
-
-            let book = bookList.find((bk) => bk.bookId === idBook)
-
-
-
-            if (book) {
-
-                return book
-
-            }
-
-            else {
-                return "book data not fetch"
-            }
-
-        }
-
+        const book = await BookModel.findOne({ _id })
+        return book
     } catch (error) {
         throw new Error(error.message)
     }
@@ -74,55 +24,88 @@ const getBookById = async(bookId) => {
 }
 
 
-const getBooks = (book) => {
-
-
-
-}
-
-
-
-
-
-const updateBookById = (book, bookId) => {
+const getBooks = async () => {
     try {
-        if (book?.bookId && bookId) {
-            console.log('hellooooooo')
+        const book = await BookModel.find()
 
-            bookList = bookList.map((bk) => {
-                if (bk.bookId == bookId) {
-                    return {
-                        ...book,
-                        bookId: bk.bookId
-                    }
-
-                }
-                return bk
+        return book
 
 
-            })
-
-            return "book data successfully updated"
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}
 
 
 
-        }
-        else {
-            return "book data not updated"
-        }
+
+
+const updateBookById = async(book, _id) => {
+    try {
+
+        const updateBook = await BookModel.updateOne({ _id },
+            { $set: book },
+            { upsert: false }
+        )
+        return updateBook
+
 
     } catch (error) {
         throw new Error(error.message)
     }
 
 }
+
+
+const updateBooks = async(book) => {
+    try {
+
+        const booksUpdate = await BookModel.updateMany(
+            // { _id },
+            { $set: book },
+            { upsert: false }
+        )
+        return booksUpdate
+
+
+    } catch (error) {
+        throw new Error(error.message)
+    }
+
+}
+
+const deleteBookById = async(_id)=>{
+    try{
+    const deleteBook  = await BookModel.deleteOne({_id})
+
+    return deleteBook
+
+
+    }catch(err){
+        throw new Error(err.message)
+    }
+}
+
+const deleteBooks = async()=>{
+    try{
+    const booksDelete = await BookModel.deleteMany()
+    return booksDelete
+
+    }catch(err){
+        throw new Error(err.message)
+    }
+}
+
 
 
 module.exports = {
     createBook,
     getBookById,
     getBooks,
-    updateBookById
+    updateBookById,
+    updateBooks,
+    deleteBookById,
+    deleteBooks
 }
 
 

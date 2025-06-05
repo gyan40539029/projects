@@ -4,19 +4,19 @@ const mongoose = mongooseHelper.getConnecton()
 
 const bookSchema = new mongoose.Schema({
 
-    bookId: { type: "Number" },
-    title: { type: "string" },
-    author: { type: "string" },
-    edition: { type: "string" },
-    language: { type: "string" },
-    numberOfPages: { type: "Number" },
-    publishedYear: { type: "Number" },
-    rackNumber: { type: "Number" },
-    numberOfCoppies: { type: "Number" },
-    price: { type: "Number" },
-    bookStatus: { type: "string" },
-    bookCondition: { type: "string" },
-    bookImages: { type: "string" }
+    bookId: { type: Number },
+    title: { type: String },
+    author: { type: String },
+    edition: { type: String },
+    language: { type: String },
+    numberOfPages: { type: Number },
+    publishedYear: { type: Number },
+    rackNumber: { type: Number },
+    numberOfCoppies: { type: Number },
+    price: { type: Number },
+    bookStatus: { type: String },
+    bookCondition: { type: String },
+    bookImages: { type: String }
 
 
 
@@ -25,9 +25,9 @@ const bookSchema = new mongoose.Schema({
 })
 
 
-const bookModel = mongoose.model('bookModel', bookSchema, "Book Registration")
+const BookModel = mongoose.model('bookModel', bookSchema, "Book Registration")
 
 
 module.exports = {
-    bookModel
+    BookModel
 }

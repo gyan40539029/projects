@@ -4,29 +4,29 @@ const mongoose = mongooseHeper.getConnecton()
 
 
 const collegeSchema = new mongoose.Schema({
-    collegeName: { type: "string" },
-    collegeCode: { type: "Number" },
-    Email: { type: "string" },
-    Phone: { type: "Number" },
-    Website: { type: "string" },
+    collegeName: { type: String },
+    collegeCode: { type: Number },
+    Email: { type: String },
+    Phone: { type: Number },
+    Website: { type: String },
 
     Address: {
         type: Object,
-        Street: { type: "string" },
-        City: { type: "string" },
-        State: { type: "string" },
-        Zip: { type: "Number" },
-        Country: { type: "string" }
+        Street: { type: String },
+        City: { type: String },
+        State: { type: String },
+        Zip: { type: Number },
+        Country: { type: String }
     },
 
-    establishmentYear: { type: "Number" },
-    collegeLogo: { type: "string" }
+    establishmentYear: { type: Number },
+    collegeLogo: { type: String }
 })
 
 
-const collegeModel = mongoose.model("collegeModel", collegeSchema, "College Registration Form")
+const CollegeModel = mongoose.model("collegeModel", collegeSchema, "College Registration Form")
 
 
 module.exports = {
-    collegeModel
+    CollegeModel
 }

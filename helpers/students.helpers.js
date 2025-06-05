@@ -1,74 +1,27 @@
-let studentList = []
 
-const {studentModel} = require('./../model/students.model')
+const {StudentModel} = require('./../model/students.model')
 
-const createStudent = async(student)=>{  //need to name chang createCollege
+const createStudent = async(student)=>{  
 
     try{
-if(student.studentId && !studentList.some(stdnt=>stdnt.studentId== student.studentId)){
-
-    await studentModel.insertOne({
-
-        fullName: "Aman",
-    studentId: 425,
-    emailAddress: "rockwell9029@gmai.com",
-    phoneNumber: 9873251643,
-    password: "40539029@gyan",
-    confirmPassword:"405339029@gyan",
-    smsAuthentication: 12456,
-    profilePicture: "img_url",
-    DOB: 1998,
-    gender: "male",
-    addresss: {
-        type: Object,
-        street: "ygg",
-        city: "delhi",
-        zip: 221711,
-        country: "India"
-    }
+    const studentCreate = await StudentModel.insertOne(student)
+    return studentCreate
 
 
-    })
-    console.log('hellow')
-    studentList.push(student)
 
-    
-    return student
-
-}
-
-
-else{
-    return "student not created"
-}
 }catch(error){
     throw new Error(error.message)
 }
 }
 
 
-const getStudentById = async(studentId)=>{  /// need to getCollegebyId  
+const getStudentById = async(_id)=>{   
     try{
-   if(studentId){
-    const idStudent = parseInt(studentId)
 
-    await studentModel.findOne({_id:"55666666"})
-   
-    let student = studentList.find((stdnt)=>stdnt.studentId === idStudent )
-    
+        const getStudent = await StudentModel.findOne({_id})
 
-    
-    if(student){
-        
-        return student
+        return getStudent
 
-    }
-
-    else{
-        return "student data not fetch"
-    }
-
-   }
 
 }catch(error){
     throw new Error(error.message)
@@ -77,55 +30,93 @@ const getStudentById = async(studentId)=>{  /// need to getCollegebyId
 }
 
 
-const getStudents = (students)=>{
+const getStudents = async()=>{
 
-
-
-   }
-
-
-
-
-
-const updateStudentById = (student,studentId)=>{
     try{
-    if(student?.studentId && studentId){
-        console.log('hellooooooo')
+    const studentsGet = await StudentModel.find()
 
-        studentList = studentList.map((stdnt)=>{
-            if(stdnt.studentId == studentId){
-                return {
-                    ...student,
-                     studentId : stdnt.studentId
-                }
-                
-            }
-            return stdnt
-    
-           
-        })
-
-        return "student data successfully updated"
-    
+    return studentsGet
 
 
-    }
-    else{
-        return "student data not updated"
-    }
+}catch(err){
+    throw new Error(err.message)
+}
+
+}
+
+
+
+
+
+const updateStudentById =async(student,_id)=>{
+    try{
+    const updateStudent = await StudentModel.updateOne(
+        {_id},
+        {$set:student},
+        {upsert:false}
+    )
+    return updateStudent
 
 }catch(error){
     throw new Error(error.message)
 }
     
 }
+
+const updateStudents =async(student)=>{
+    try{
+    const studentsUpdate = await StudentModel.updateMany(
+        // {_id},
+        {$set:student},
+        {upsert:false}
+    )
+    return studentsUpdate
+
+}catch(error){
+    throw new Error(error.message)
+}
+    
+}
+
+const deleteStudentById = async(_id)=>{   
+    try{
+
+        const deleteStudent = await StudentModel.deleteOne({_id})
+
+        return deleteStudent
+
+
+}catch(error){
+    throw new Error(error.message)
+}
+
+}
+
+
+const deleteStudents = async()=>{
+
+    try{
+    const studentsDelete = await StudentModel.deleteMany()
+
+    return studentsDelete
+
+
+}catch(err){
+    throw new Error(err.message)
+}
+
+}
+
 
 
 module.exports={
 createStudent,
 getStudentById,
 getStudents,
-updateStudentById
+updateStudentById,
+updateStudents,
+deleteStudentById,
+deleteStudents
 }
 
 

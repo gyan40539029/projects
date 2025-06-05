@@ -3,39 +3,16 @@ const studentHelper = require('../helpers/students.helpers')
 const createStudent =async (req, res) => {
     try {
         const student = req.body
+
+        const studentCreate = await studentHelper.createStudent(student)
+        console.log(studentCreate)
+        return res.status(201).json({
+            status : "new student added successfully",
+            result : studentCreate
+        })
         
-        if (student?.studentId) {
-
-            const student_rcd = await studentHelper.createStudent(student)
-
-            if (student_rcd === "student not created") {
-                return res.status(401).json({
-                    status: "already exhisting student on this id",
-                    result: student_rcd
-
-                })
-
-            }
-
-            else {
-
-                return res.status(201).json({
-                    status: "new student added successfully",
-                    result: student_rcd
-
-                })
-
-            }
-
-        }
-        else {
-            return res.status(404).json({
-                status: "error",
-                desc: "please enter the student id"
-            })
-        }
-    }
-    catch (err) {
+      
+    }catch (err) {
         console.log("internal error", err, err.message);
 
 
@@ -54,31 +31,15 @@ const createStudent =async (req, res) => {
 
 const getStudentById = async (req, res) => {
     try {
-        const studentId = req.params.studentId 
+        const studentId = req.params._id 
         const studentRecord = await studentHelper.getStudentById(studentId)
+        console.log(studentRecord)
+        return res.status(201).json({
+            status : "student data successfully fetched",
+            result  : studentRecord
+        })
        
-        if (studentId > 0) {
-          
-            
-            if (studentRecord === "student data not fetch") {
-                return res.status(401).json({
-                    status: "error",
-                    result: studentRecord
-                })
-            }
-            else {
-                return res.status(201).json({
-                    status: "student data fetch successfully",
-                    result: studentRecord
-                })
-            }
-        } else {
-            console.log('hellow brother')
-            return res.status(501).json({
-                status: "missing field input",
-                remdy: "please enter the studentId"
-            })
-        }
+       
     } catch (err) {
         console.log(err,err.message)
         return res.status(500).json({
@@ -89,42 +50,41 @@ const getStudentById = async (req, res) => {
 
 }
 
-const getStudents = (req, res) => {                     /// daat come in query
-
-}
-
-const updateStudentById = (req, res) => {   /// update college by id  need to change  and neet to param for id
+const getStudents = async(req, res) => {                     /// daat come in query
     try{
-    const studentData = req.body
-    const studentId = req.params.studentId
-   
 
-    if ((studentData && Object.keys(studentData).length > 0) && studentId > 0) {
-        const data = studentHelper.updateStudentById(studentData,studentId)
+        const studentsGet  =  await studentHelper.getStudents()
+        console.log(studentsGet)
+        return res.status(201).json({
+            status:"all students data fetched successfully",
+            result  :studentsGet
+        })
 
-        if (data == "student data successfully updated") {
-           return  res.status(201).json({
-                status: "student data update successfully",
-                result: studentData
-            })
-
-        }
-        else {
-           return res.status(401).json({
-                status: "student data not updated"
-            })
-        }
-    }
-
-    else {
-         console.log('hellow')
-      return  res.status(401).json({
-            status: "student data empty or studentId empty",
-            remdy : "check the student data or studentId"
-           
+    }catch(err){
+        console.log(err, err.message)
+        return res.status(403).json({
+            status : "internal error",
+            result : err.message
         })
     }
 
+}
+
+const updateStudentById = async(req, res) => {   
+    try{
+    const studentData = req.body
+    const studentId = req.params._id
+
+    const updateStudent = await studentHelper.updateStudentById(studentData,studentId)
+    console.log(updateStudent)
+
+    return res.status(201).json({
+        status : "student update successfully",
+        result : updateStudent
+    })
+   
+
+    
 }catch(err){
     console.log(err,err.message)
     return res.status(505).json({
@@ -136,17 +96,82 @@ const updateStudentById = (req, res) => {   /// update college by id  need to ch
 }
 
 
-const updateStudents = (req, res) => {
+const updateStudents = async(req, res) => {
+    try{
+
+        const students = req.body
+
+        const studentsUpdate = await studentHelper.updateStudents(students)
+
+        console.log(studentsUpdate)
+        return  res.status(201).json({
+            status : "all student updated",
+
+            result : studentsUpdate
+        })
+
+
+
+
+
+    }catch(err){
+        console.log(err, err.message)
+
+        return res.status(403).json({
+            status : "internal error",
+            result  : err.message
+        })
+    }
 
 }
 
 
-const deleteStudentById = (req,res)=>{
+const deleteStudentById = async(req,res)=>{
+
+   try{
+     const studentId = req.params._id
+
+     const deleteStudent = await studentHelper.deleteStudentById(studentId)
+     console.log(deleteStudent)
+     return res.status(201).json({
+        status : "student delete successfully",
+        result : deleteStudent
+     })
+
+
+   }catch(err){
+    console.log(err, err.message)
+    return res.status(403).json({
+        status : "internal Error",
+        result : err.message
+    })
+
+
+   }
+
 
 }
 
 
-const deleteStudents = (req,res)=>{
+const deleteStudents = async(req,res)=>{
+    try{
+
+        const studentsDelete = await studentHelper.deleteStudents()
+        console.log(studentsDelete)
+
+        return res.status(201).json({
+            status : "all students delete successfully",
+            result : studentsDelete
+        })
+
+
+    } catch(err){
+        console.log(err, err.message)
+        return res.status(403).json({
+            status : "internal error",
+            result : err.message
+        })
+    }
 
 }
 

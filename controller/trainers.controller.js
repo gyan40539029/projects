@@ -3,37 +3,16 @@ const trainerHelper = require('../helpers/trainers.helpers')
 const createTrainer = async (req, res) => {
     try {
         const trainer = req.body
+
+        const trainerCreate = await trainerHelper.createTrainer(trainer)
+        console.log(trainerCreate)
+        return res.status(201).json({
+            status : "new trainer add successfully",
+            result : trainerCreate
+
+        })
         
-        if (trainer?.trainerId) {
-
-            const trainer_rcd = await trainerHelper.createTrainer(trainer)
-
-            if (trainer_rcd === "trainer not created") {
-                return res.status(401).json({
-                    status: "already exhisting trainer on this id",
-                    result: trainer_rcd
-
-                })
-
-            }
-
-            else {
-
-                return res.status(201).json({
-                    status: "new trainer added successfully",
-                    result: trainer_rcd
-
-                })
-
-            }
-
-        }
-        else {
-            return res.status(404).json({
-                status: "error",
-                desc: "please enter the trainer id"
-            })
-        }
+       
     }
     catch (err) {
         console.log("internal error", err, err.message);
@@ -54,31 +33,16 @@ const createTrainer = async (req, res) => {
 
 const getTrainerById = async (req, res) => {
     try {
-        const trainerId = req.params.trainerId //// need to  change query to param
+        const trainerId = req.params._id
         const trainerRecord = await trainerHelper.getTrainerById(trainerId)
+        console.log(trainerRecord)
+
+        return res.status(201).json({
+            status : "trainer data fetch successfully",
+            result : trainerRecord
+        })
        
-        if (trainerId > 0) {
-          
-            
-            if (trainerRecord === "trainer data not fetch") {
-                return res.status(401).json({
-                    status: "error",
-                    result: trainerRecord
-                })
-            }
-            else {
-                return res.status(201).json({
-                    status: "trainer data fetch successfully",
-                    result: trainerRecord
-                })
-            }
-        } else {
-            console.log('hellow brother')
-            return res.status(501).json({
-                status: "missing field input",
-                remdy: "please enter the trainerId"
-            })
-        }
+        
     } catch (err) {
         console.log(err,err.message)
         return res.status(500).json({
@@ -89,43 +53,42 @@ const getTrainerById = async (req, res) => {
 
 }
 
-const getTrainers = (req, res) => {                     /// daat come in query
+const getTrainers = async(req, res) => {                     /// daat come in query
+    try{
+
+        const trainersGet = await trainerHelper.getTrainers()
+        console.log(trainersGet)
+
+        return res.status(201).json({
+            status : "all trainer data fetch successfully",
+            result : trainersGet
+        })
+
+
+
+    }catch(err){
+        console.log(err, err.message)
+
+        return res.status(403).json({
+            status : "internal error",
+            result : err.message
+        })
+    }
 
 }
 
-const updateTrainerById = (req, res) => {   /// update college by id  need to change  and neet to param for id
+const updateTrainerById = async(req, res) => {   
     try{
     const trainerData = req.body
-    const trainerId = req.params.trainerId
-    console.log(Object.keys(trainerData).length)
-    console.log(trainerId)
-   
+    const trainerId = req.params._id
 
-    if ((trainerData && Object.keys(trainerData).length > 0) && trainerId > 0) {
-        const data = trainerHelper.updateTrainerById(trainerData,trainerId)
+    const updateTrainer = await trainerHelper.updateTrainerById(trainerData, trainerId)
+    console.log(updateTrainer)
 
-        if (data == "trainer data successfully updated") {
-           return  res.status(201).json({
-                status: "trainer data update successfully",
-                result: trainerData
-            })
-
-        }
-        else {
-           return res.status(401).json({
-                status: "trainer data not updated"
-            })
-        }
-    }
-
-    else {
-         console.log('hellow')
-      return  res.status(401).json({
-            status: "trainer data empty or trainerId empty",
-            remdy : "check the trainer data or trainerId"
-           
-        })
-    }
+    return res.status(201).json({
+        status : "trainer updated successfully",
+        result  : updateTrainer
+    })   
 
 }catch(err){
     console.log(err,err.message)
@@ -138,17 +101,71 @@ const updateTrainerById = (req, res) => {   /// update college by id  need to ch
 }
 
 
-const updateTrainers = (req, res) => {
+const updateTrainers = async(req, res) => {
+    try{
+
+        const trainers = req.body
+
+        const trainersUpdate = await trainerHelper.updateTrainers(trainers)
+        console.log(trainersUpdate)
+
+        return res.status(201).json({
+            status : "all trainers update successfully",
+            result : trainersUpdate
+        })
+
+
+    }catch(err){
+        console.log(err, err.message)
+        return res.status(505).json({
+            status:"interna error",
+            result : err.message
+        })
+    }
 
 }
 
 
-const deleteTrainerById = (req,res)=>{
+const deleteTrainerById = async(req,res)=>{
+    try{
+        const trainerId = req.params._id
+
+        const deleteTrainer = await trainerHelper.deleteTrainerById(trainerId)
+        console.log(deleteTrainer)
+        return res.status(201).json({
+            status : "trainer delete successfully",
+            result : deleteTrainer
+        })
+
+    }catch(err){
+        console.log(err, err.message)
+        return res.status(505).json({
+            status : "internal error",
+            result  : err.message
+        })
+    }
 
 }
 
 
-const deleteTrainers = (req,res)=>{
+const deleteTrainers = async(req,res)=>{
+    try{
+
+        const trainersDelete = await trainerHelper.deleteTrainers()
+        console.log(trainersDelete)
+        return res.status(201).json({
+            status : "All trainers delete successfully",
+            result  : trainersDelete
+        })
+
+
+    }catch(err){
+        console.log(err, err.message)
+        return res.status(505).json({
+            status : "internal error",
+            result : err.message
+        })
+    }
 
 }
 

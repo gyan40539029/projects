@@ -3,37 +3,16 @@ const accountHelper = require('../helpers/accounts.helpers')
 const createAccount = async (req, res) => {
     try {
         const account = req.body
-        
-        if (account?.accountId) {
+        const account_rcd = await accountHelper.createAccount(account)
 
-            const account_rcd = await accountHelper.createAccount(account)
+        console.log(account_rcd)
+        return res.status(201).json({
+            status: "user successfully created",
+            result: account_rcd
+        })
 
-            if (account_rcd === "account not created") {
-                return res.status(401).json({
-                    status: "already exhisting account on this id",
-                    result: account_rcd
 
-                })
 
-            }
-
-            else {
-
-                return res.status(201).json({
-                    status: "new account added successfully",
-                    result: account_rcd
-
-                })
-
-            }
-
-        }
-        else {
-            return res.status(404).json({
-                status: "error",
-                desc: "please enter the account id"
-            })
-        }
     }
     catch (err) {
         console.log("internal error", err, err.message);
@@ -54,99 +33,141 @@ const createAccount = async (req, res) => {
 
 const getAccountById = async (req, res) => {
     try {
-        const accountId = req.params.accountId 
+        const accountId = req.params._id
         const accountRecord = await accountHelper.getAccountById(accountId)
-       
-        if (accountId > 0) {
-          
-            
-            if (accountRecord === "account data not fetch") {
-                return res.status(401).json({
-                    status: "error",
-                    result: accountRecord
-                })
-            }
-            else {
-                return res.status(201).json({
-                    status: "account data fetch successfully",
-                    result: accountRecord
-                })
-            }
-        } else {
-            console.log('hellow brother')
-            return res.status(501).json({
-                status: "missing field input",
-                remdy: "please enter the accountId"
-            })
-        }
+        console.log(accountRecord)
+        return res.status(201).json({
+            status: "user data successfully fetched",
+            result: accountRecord
+
+        })
+
+
+
+
     } catch (err) {
-        console.log(err,err.message)
+        console.log(err, err.message)
         return res.status(500).json({
             error: "internal error",
+            result: err.message
+        })
+    }
+}
+
+
+
+const getAccounts = async (req, res) => {                     /// daat come in query
+    try {
+        const allAccountRecords = await accountHelper.getAccounts()
+        console.log(allAccountRecords)
+
+        return res.status(201).json({
+            status: "account data successfully fetched",
+            result: allAccountRecords
+        })
+
+
+
+    } catch (err) {
+        console.log(err, err.message)
+
+        return res.status(505).json({
+            status: "error",
             result: err.message
         })
     }
 
 }
 
-const getAccounts = (req, res) => {                     /// daat come in query
+const updateAccountById = async(req, res) => {   /// update college by id  need to change  and neet to param for id
+    try {
+        const accountData = req.body
+        const accountId = req.params._id
 
+        const updateAccount = await accountHelper.updateAccountById(accountData, accountId)
+        console.log(updateAccount)
+
+        return res.status(201).json({
+            status: "account data successfully updated",
+            result: updateAccount
+        })
+
+    } catch (err) {
+        console.log(err, err.message)
+        return res.status(505).json({
+            error: "internal error",
+            desc: err.message
+
+        })
+    }
 }
 
-const updateAccountById = (req, res) => {   /// update college by id  need to change  and neet to param for id
+
+const updateAccounts = async(req, res) => {
     try{
-    const accountData = req.body
-    const accountId = req.params.accountId
-   
+        const accountRecord = req.body
+        console.log(accountRecord)
 
-    if ((accountData && Object.keys(accountData).length > 0) && accountId > 0) {
-        const data = accountHelper.updateAccountById(accountData,accountId)
+        const accountsUpdate = await accountHelper.updateAccounts(accountRecord)
+        console.log(accountsUpdate)
+        return res.status(201).json({
+            status : "all acounts data successfully updated",
+            result :accountsUpdate
+        })
 
-        if (data == "account data successfully updated") {
-           return  res.status(201).json({
-                status: "account data update successfully",
-                result: accountData
-            })
 
-        }
-        else {
-           return res.status(401).json({
-                status: "account data not updated"
-            })
-        }
-    }
-
-    else {
-         console.log('hellow')
-      return  res.status(401).json({
-            status: "account data empty or accountId empty",
-            remdy : "check the account data or accountId"
-           
+    }catch(err){
+        console.log(err,err.message)
+        return res.status(505).json({
+            status : "internal error",
+            result : err.message
         })
     }
 
-}catch(err){
-    console.log(err,err.message)
-    return res.status(505).json({
-        error : "internal error",
-        desc : err.message
-
-    })
-}
-}
-
-
-const updateAccounts = (req, res) => {
 
 }
 
 
-const deleteAccountById = (req,res)=>{
+const deleteAccountById = async (req, res) => {
+    try{
+        const accountId = req.params._id
+        const deleteAccount = await accountHelper.deleteAccountById(accountId)
+        console.log(deleteAccount)
+        return res.status(201).json({
+            status : "account delete successfully",
+            result : deleteAccount
+        })
+
+    }catch(err){
+        console.log(err.message)
+        return res.status(401).json({
+            status : "internal error",
+            result : err.message
+        })
+    }
+    
+    
 
 }
 
 
-const deleteAccounts = (req,res)=>{
+const deleteAccounts = async(req, res) => {
+    try{
+
+        const deleteAccounts = await accountHelper.deleteAccounts()
+        console.log(deleteAccounts)
+        return res.status(201).json({
+            status : "all account deleted successfully",
+            result :deleteAccounts
+        })
+
+    }catch(err){
+        console.log(err,err.message)
+        return res.status(403).json({
+            status : "internal error",
+            result :err.message
+        })
+    }
 
 }
 
