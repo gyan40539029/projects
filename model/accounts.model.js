@@ -5,13 +5,11 @@ const mongoose = mongooseHelper.getConnecton()
 const accountSchema = new mongoose.Schema({
 
 
-    transactionType: { type: String },
-    transactionDate: { type: Number },
-    accountName: { type: String },
-    amount: { type: Number },
-    currency: { type: String },
+    transactionType: { type: String, required: true },
+    transactionDate: { type: Date, required: true },
+    accountName: { type: String, required: true },
+    amount: { type: Number, required: true },
     paymentMethod: { type: String },
-    transactionMode: { type: String },
     invoiceId: { type: Number }
 
 
@@ -20,7 +18,7 @@ const accountSchema = new mongoose.Schema({
 
 
 
-const AccountModel = mongoose.model('accountModel', accountSchema, "Account Registration")
+const AccountModel = mongoose.model('AccountModel', accountSchema, "Account Registration")
 
 
 

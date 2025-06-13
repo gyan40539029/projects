@@ -1,30 +1,30 @@
 const mongooseHeper = require('./../helpers/mongoose.helper')
-
 const mongoose = mongooseHeper.getConnecton()
+
+const addressSchema = new mongoose.Schema({
+    street: { type: String },
+    city: { type: String },
+    state: { type: String },
+    zip: { type: Number },
+    country: { type: String }
+
+}, { _id: false })
 
 
 const collegeSchema = new mongoose.Schema({
     collegeName: { type: String },
     collegeCode: { type: Number },
-    Email: { type: String },
-    Phone: { type: Number },
-    Website: { type: String },
-
-    Address: {
-        type: Object,
-        Street: { type: String },
-        City: { type: String },
-        State: { type: String },
-        Zip: { type: Number },
-        Country: { type: String }
-    },
-
+    email: { type: String },
+    phone: { type: Number },
+    website: { type: String },
     establishmentYear: { type: Number },
-    collegeLogo: { type: String }
+    collegeLogo: { type: String },
+    address : addressSchema,
+    userId : {type:String ,required: true}
 })
 
 
-const CollegeModel = mongoose.model("collegeModel", collegeSchema, "College Registration Form")
+const CollegeModel = mongoose.model("CollegeModel", collegeSchema, "College Registration Form")
 
 
 module.exports = {

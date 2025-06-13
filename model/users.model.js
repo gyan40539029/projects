@@ -1,23 +1,31 @@
 const mongooseHelper = require('./../helpers/mongoose.helper')
 const mongoose = mongooseHelper.getConnecton()
 
+const addressSchema = new mongoose.Schema({
+    street: { type: String },
+    city: { type: String },
+    state: { type: String },
+    zip: { type: Number },
+    country: { type: String },
+
+}, { _id: false })
+
 
 const userSchema = new mongoose.Schema({
 
     fullName: { type: String },
-    userId: { type: String },
     userName: { type: String },
     emailAddress: { type: String },
     phoneNumber: { type: Number },
-    password: { type: String },
-    confirmPassword: { type: String },
-    smsAuthentication: { type: Number },
+    password: { type: String },   // md5 encryption
     profilePicture: { type: String },
-    DOB: { type: Number },
+    dob: { type: Number },
     gender: { type: String },
-    RoleAccessLevel: { type: String },
-    Status: { type: String },
-    department: { type: String }
+    roleAccessLevel: { type: String },
+    type: { type: String },
+    status: { type: String },  /// trainer / admin / student
+    department: { type: String },
+    address: addressSchema
 
 
 
@@ -25,7 +33,7 @@ const userSchema = new mongoose.Schema({
 
 
 
-const UserModel = mongoose.model('userModel', userSchema, "User Registration")
+const UserModel = mongoose.model('UserModel', userSchema, "User Registration")
 
 module.exports = {
     UserModel

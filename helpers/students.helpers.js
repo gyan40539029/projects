@@ -1,5 +1,5 @@
 
-const {StudentModel} = require('./../model/students.model')
+const {StudentModel} = require('../model/students.register.model')
 
 const createStudent = async(student)=>{  
 

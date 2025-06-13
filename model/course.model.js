@@ -12,11 +12,14 @@ const courseSchema = new mongoose.Schema({
     status: { type: String },
     startDate: { type: Number },
     endDate: { type: Number },
+    userId : {type:String, required:true},
+    collegeId:{type:String, required :true},
+    classId:{type:String, required:true}
 
 })
 
 
-const CourseModel = mongoose.model('courseModel', courseSchema, "Courses Registration Form")
+const CourseModel = mongoose.model('CourseModel', courseSchema, "Courses Registration Form")
 
 
 module.exports = {
