@@ -1,0 +1,90 @@
+<app-navigation>
+    <div
+        style="display: flex; justify-content: flex-start; align-items: center; flex-direction: column; background-color:#e0cfe3;width: 100%; height: 82.9vh; padding-top: 2px;">
+
+
+        <div
+            style="width: 95%; height: 5vh; border: 1px solid rgb(1, 7, 36); display: flex; justify-content: center; align-items: center; font-size: larger; background-color: rgb(180, 241, 241); margin: 0; box-sizing: border-box; ">
+            <h1 style="margin: 0px;">User</h1>
+        </div>
+        <div
+            style="width: 95%; height: 76.77vh; border: 1px solid green; margin-top: 5px; display: flex; align-items: center; flex-direction: column;">
+            <div
+                style="width: 97.7%;height: 10vh; display: flex; align-items: center; justify-content: flex-start; padding-left: 2%; column-gap: 4%; box-shadow: 0px 2px 5px 0px #131212; ">
+                <button style="background-color: rgb(19, 104, 3); border-radius: 10px; width: 7%; font-size: large;"
+                    matButton="filled">Add</button>
+                <button style="background-color: rgb(5, 181, 250); border-radius: 8px; width: 10%; font-size: large;"
+                    matButton="filled">Import</button>
+                <button style="background-color: rgb(5, 181, 250); border-radius: 8px; width: 10%; font-size: large;"
+                    matButton="filled">Export</button>
+
+                <button style="background-color: rgb(163, 120, 2); border-radius: 8px; width: 10%; font-size: large;"
+                    matButton="filled">Filter</button>
+
+                <button
+                    style="background-color: rgb(190, 33, 5); border-radius: 13px; width: 8%; font-size: large; margin-left: auto; margin-right: 2%;"
+                    matButton="filled">Delete</button>
+
+
+            </div>
+
+            <div style="width: 100%; height: 100vh; margin-top: 12px; border-radius: 5px;">
+                <table style="border: 1px solid yellow; width: 100%; height: 40vh; background-color: rgb(185, 201, 216); " mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="select">
+                        <th  style="border: 2px solid violet; font-size: larger; width: 8%;" mat-header-cell *matHeaderCellDef>
+                            <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                [aria-label]="checkboxLabel()">
+                            </mat-checkbox>
+                        </th>
+                        <td style="border: 2px solid green;" mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                                [aria-label]="checkboxLabel(row)">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="position">
+                        <th style="border: 2px solid red; font-size: x-large; font: weight 1%;text-align: center;" mat-header-cell *matHeaderCellDef> No. </th>
+                        <td style="border: 1px solid rgb(18, 19, 18); width: 10%; text-align: center; font-size: 2vh;" mat-cell *matCellDef="let element"> {{element.position}} </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                        <th style="border: 2px solid red; font-size: x-large; font: weight 1%;text-align: center;" mat-header-cell *matHeaderCellDef> Full Name </th>
+                        <td style="border: 1px solid rgb(18, 19, 18); width: 20%; text-align: center; font-size: 2vh;" mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="weight">
+                        <th style="border: 2px solid red; font-size: x-large; font: weight 1%;text-align: center;" mat-header-cell *matHeaderCellDef> User Name </th>
+                        <td style="border: 1px solid rgb(18, 19, 18); width: 12%; text-align: center; font-size: 2vh;" mat-cell *matCellDef="let element"> {{element.weight}} </td>
+                    </ng-container>
+
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="symbol">
+                        <th style="border: 2px solid red; font-size: x-large; font: weight 1%;text-align: center;" mat-header-cell *matHeaderCellDef> Email <Address></Address> </th>
+                        <td style="border: 1px solid rgb(18, 19, 18); width: 12%; text-align: center; font-size: 2vh;" mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                    </tr>
+                </table>
+
+            </div>
+
+           
+
+           
+
+        </div>
+
+          
+    </div>
+</app-navigation>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div
+        style="width: 100%; height: 97.5vh;  background-image: url('../../assets/images/university.jpg'); background-repeat: no-repeat; background-size: cover; display: flex; justify-content: center; align-items: center;">
+        <div
+            style="width: 35%; height: 60vh;  background-color:#76777562; border-radius: 10px; margin-top: -12%;">
+
+            <div>
+                <div style="display: flex; justify-content: center; color: black; margin-top: 3vh; ">
+                    <h2 style="opacity: 1;">Login</h2>
+                </div>
+
+                <div
+                    style="  display: flex; padding-left: 20%; column-gap: 25%; margin-top: 2vh;">
+                    <div style="display: flex; justify-content: center; align-items: center; font-size: larger;">Email
+                    </div>
+                    <form class="example-form">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Email</mat-label>
+                            <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+                                placeholder="Ex. pat@example.com">
+                            <mat-hint>Errors appear instantly!</mat-hint>
+                            @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
+                            <mat-error>Please enter a valid email address</mat-error>
+                            }
+                            @if (emailFormControl.hasError('required')) {
+                            <mat-error>Email is <strong>required</strong></mat-error>
+                            }
+                        </mat-form-field>
+                    </form>
+
+                </div>
+
+                <div
+                    style="display: flex;  padding-left: 20%; column-gap: 20%; margin-top: 4vh;">
+
+                    <div style="display: flex; justify-content: center; align-items: center; font-size: larger;">
+                        password</div>
+
+
+
+                    <div class="pwd">
+                        <div class="example-container">
+                        <mat-form-field style="width: 91%;">
+                            <mat-label>Enter your password</mat-label>
+                            <input matInput [type]="hide() ? 'password' : 'text'" />
+                            <button matIconButton matSuffix (click)="clickEvent($event)"
+                                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide()">
+                                <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                        </mat-form-field>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div style=" display: flex; justify-content: space-around; align-items: center; ">
+                    <div>
+                        <mat-checkbox class="example-margin">Remember me!</mat-checkbox>
+                    </div>
+
+                    <div>
+                        <button style="background-color: transparent; color: rgb(2, 40, 167);" matButton="filled">Fofget
+                            password</button>
+                    </div>
+                </div>
+
+                <div style="margin-top: 4%; display: flex; align-items: center;">
+                    <button
+                        style="background-color: rgba(6, 85, 202); color: rgb(233, 238, 245); margin-left: 22%; border-radius: 6px; width: 20%; font-size: large;"
+                        matButton="filled">Login</button>
+
+                </div>
+
+                <div style=" margin-top: 4%; list-style: none; display: flex; align-items: center;">
+
+                    <div style="margin-left: 20%;">
+                        Don't have an account ?
+
+                    </div>
+                    <div>
+
+                        <button
+                            style="background-color: transparent; color: rgb(5, 143, 23); margin-left: -22%; border-radius: 6px; font-size: large;"
+                            matButton="filled">Register</button>
+
+                    </div>
+                   
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</body>
+
+</html>

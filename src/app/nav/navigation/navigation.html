@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div
+            style="width: 100%; height: 7vh;  display: flex;  align-items: center; background-color: rgb(133, 135, 235);border-bottom: 2px solid rgb(11, 1, 53);">
+            <div
+                style="width: 10%; height: 7vh; text-align: center; display: flex; align-items: center; justify-content: center;">
+                logo</div>
+            <div style="width: 70%; height: 7vh; display: flex;  align-items: center; ">
+                <ul class="menu_list">
+                    <li>  <button routerLink="/user" matButton="filled">User</button></li>
+                    <li><button routerLink="/college" matButton="filled">College</button></li>
+                    <li> <button routerLink="/course" matButton="filled">Course</button> </li>
+                    <li> <button routerLink="/class" matButton="filled">Class</button> </li>
+                    <li> <button routerLink="/book" matButton="filled">Book</button> </li>
+                    <li> <button routerLink="/student" matButton="filled">Student</button> </li>
+                    <li> <button routerLink="/trainer" matButton="filled">Trainer</button>  </li>
+                    <li> <button routerLink="/account" matButton="filled">Account</button>  </li>
+
+                </ul>
+            </div>
+
+            <div class="search-box"
+                style="width: 20%; height: 7vh; display: flex; justify-content: center; align-items: center;">
+                <input style="width: 60%; height: 4vh; border-radius: 6%;font-size: x-large;" type="text"
+                    placeholder="Search...">
+                <button type="submit" style="height: 4vh; width: 14%; border-radius: 6%;"><i
+                        class="fas fa-search"></i></button>
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+    </header>
+    <div style="display: flex; justify-content: flex-start;">
+
+        <div style="width: 15%;height: 83vh;  border-radius: 5px; display: flex; flex-direction: column; justify-content: center;">
+             <app-side-bar></app-side-bar>
+
+        </div>
+        <div style="width: 70%; height: 83vh; border: 1px solid rgb(1, 1, 29);">
+            <ng-content></ng-content>
+           
+        </div>
+        <div style="width: 15%;height: 83vh;  display: flex; flex-direction: column; justify-content: center; border-radius: 5px;">
+            <app-news-update></app-news-update>
+
+        </div>
+
+
+    </div>
+
+    <div>
+        <app-footer></app-footer>
+    </div>
+
+   
+    
+
+
+
+</body>
+
+</html>
